@@ -1,0 +1,36 @@
+import { PartialType } from '@nestjs/mapped-types';
+import { Type } from 'class-transformer';
+import { IsArray, IsDate, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
+import { CreatePsychologistDto, CreateUserDto } from '.';
+
+export class UpdatePsychologistDto extends PartialType(CreatePsychologistDto) {
+
+    @IsOptional()
+    @Length(1, 50)
+    title?: string;
+
+    @IsOptional()
+    @IsDate()
+    @Type(() => Date)
+    firstWorkDate?: Date;
+
+    @IsOptional()
+    @Length(1, 255)
+    about?: string;
+
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true })
+    goals?: string[];
+
+    @IsOptional()
+    workPlaces?: any[];
+}
+
+export class UpdatePsychologistUserDto extends PartialType(CreateUserDto) {
+
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => UpdatePsychologistDto)
+    psychologist?: UpdatePsychologistDto;
+}
