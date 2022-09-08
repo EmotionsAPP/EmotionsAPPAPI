@@ -7,6 +7,7 @@ export class CreatePatientDto {
 }
 
 export class CreatePatientUserDto extends CreateUserDto {
+    
     @ValidateNested()
     @Type(() => CreatePatientDto)
     patient: CreatePatientDto;

@@ -8,19 +8,19 @@ export class Psychologist extends Document {
   codopsi: string;
 
   @Prop()
-  title: string;
+  title?: string;
 
   @Prop()
-  firstWorkDate: Date;
+  firstWorkDate?: Date;
 
   @Prop()
-  about: string;
+  about?: string;
 
   @Prop()
-  goals: string[];
+  goals?: string[];
 
   @Prop()
-  workPlaces: WorkPlace[];
+  workPlaces?: WorkPlace[];
 }
 
 export const PsychologistSchema = SchemaFactory.createForClass(Psychologist);

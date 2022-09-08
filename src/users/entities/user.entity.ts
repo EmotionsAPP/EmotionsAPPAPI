@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Patient, Psychologist } from '.';
 
-@Schema()
+@Schema({ timestamps: true })
 export class User extends Document {
   @Prop({ unique: true, index: true })
   taxId: string;
@@ -20,30 +20,22 @@ export class User extends Document {
   password: string;
 
   @Prop()
-  profileImage: string;
+  profileImage?: string;
 
   @Prop()
-  gender: string;
+  gender?: string;
 
   @Prop()
-  birthDate: Date;
-
-  @Prop()
-  created: Date;
-
-  @Prop()
-  updated: Date;
+  birthDate?: Date;
 
   @Prop({ default: true })
   isActive: boolean;
 
-  // @Prop({ type: Types.ObjectId, ref: 'Psychologist' })
   @Prop()
-  psychologist: Psychologist;
+  psychologist?: Psychologist;
 
-  // @Prop({ type: Types.ObjectId, ref: 'Patient' })
   @Prop()
-  patient: Patient;
+  patient?: Patient;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
