@@ -24,7 +24,7 @@ export class UsersController {
   ) {}
 
   @Post('patients')
-  create(@Body() createPatientUserDto: CreatePatientUserDto) {
+  createPatient(@Body() createPatientUserDto: CreatePatientUserDto) {
     return this.usersService.create(createPatientUserDto);
   }
 

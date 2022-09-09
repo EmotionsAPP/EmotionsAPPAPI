@@ -32,11 +32,11 @@ export class UsersService {
   }
 
   findAllPsychologists() {
+
     return this.userModel.find({ 
       psychologist: { $ne: null }, 
       isActive: { $ne: false } 
-    })
-    .select('-__v');
+    }).select('-__v');
   }
 
   async findOne( id: string ): Promise<User> {
