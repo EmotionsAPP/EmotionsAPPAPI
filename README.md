@@ -59,6 +59,14 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Production Build
+1. Create file ```.env.prod```.
+2. Fill production env variables.
+3. Build docker image.
+```bash
+$ docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+```
+
 ## Contributing
 
 Comments on pull request are welcome, please make sure to resolve the comments before merging the pull request. Pull requests to the dev branch only need for one approval to be merge, please make sure to review the pull request throughly.
