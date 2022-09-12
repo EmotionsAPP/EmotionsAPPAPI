@@ -30,12 +30,7 @@ export class AuthService {
 
     const user = await this.usersService.create( createUserDto );
 
-    delete user.password;
-
-    return {
-      user: { ...user.toObject() },
-      token: this.getJwtToken({ id: user.id })
-    }
+    return this.checkAuthStatus( user );
   }
 
   async login( loginUserDto: LoginUserDto, validRole: ValidRoles ) {
@@ -60,18 +55,13 @@ export class AuthService {
     if ( !(await verifyPassword( password, user.password )) )
       throw new UnauthorizedException("Password is not valid");
 
-    delete user.password;
-
-    return {
-      user: { ...user.toObject() },
-      token: this.getJwtToken({ id: user.id })
-    }
+    return this.checkAuthStatus( user );
   }
 
   async checkAuthStatus( user: User ) {
 
     return {
-      user: { ...user },
+      user: { ...user.toObject() },
       token: this.getJwtToken({ id: user.id })
     }
   }
