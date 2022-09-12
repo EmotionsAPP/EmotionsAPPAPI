@@ -23,16 +23,6 @@ export class UsersController {
     private readonly usersService: UsersService
   ) {}
 
-  @Post('patients')
-  createPatient(@Body() createPatientUserDto: CreatePatientUserDto) {
-    return this.usersService.create(createPatientUserDto);
-  }
-
-  @Post('psychologists')
-  createPsychologist(@Body() createPsychologistUserDto: CreatePsychologistUserDto) {
-    return this.usersService.create(createPsychologistUserDto);
-  }
-
   @Get()
   findAllPsychologists() {
     return this.usersService.findAllPsychologists();

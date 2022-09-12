@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { PassportModule } from '@nestjs/passport';
 
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
@@ -15,9 +16,11 @@ import { UserSchema } from './entities/user.entity';
         schema: UserSchema,
       },
     ]),
+
+    PassportModule
   ],
   controllers: [ UsersController ],
   providers: [ UsersService ],
-  exports: [ MongooseModule ],
+  exports: [ MongooseModule, UsersService ],
 })
 export class UsersModule {}

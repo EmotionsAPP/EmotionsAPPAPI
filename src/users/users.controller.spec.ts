@@ -83,19 +83,19 @@ describe('UsersController', () => {
     });
   });
 
-  describe('createPsychologist', () => {
-    it('should create new psychologist', () => {
-      expect(controller.createPsychologist(newPsy)).toEqual(createdPsy);
-    });
+  // describe('createPsychologist', () => {
+  //   it('should create new psychologist', () => {
+  //     expect(controller.createPsychologist(newPsy)).toEqual(createdPsy);
+  //   });
 
-    it('should throw conflict error if id exists', () => {
-      try {
-        controller.createPsychologist(newPsy);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ConflictException);
-      }
-    });
-  });
+  //   it('should throw conflict error if id exists', () => {
+  //     try {
+  //       controller.createPsychologist(newPsy);
+  //     } catch (error) {
+  //       expect(error).toBeInstanceOf(ConflictException);
+  //     }
+  //   });
+  // });
 
   describe('remove', () => {
     it('should has isActive false', () => {
