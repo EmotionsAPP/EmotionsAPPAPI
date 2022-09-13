@@ -42,6 +42,7 @@ const mockUser = (
   isActive: user?.isActive,
   psychologist: user?.psychologist,
   patient: user?.patient,
+  updateOne: jest.fn()
 });
 
 export const usersArray = [
@@ -218,6 +219,130 @@ describe('UsersService', () => {
 
       try {
         await service.create(newPsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+  });
+
+  describe('updatePsychologist', () => {
+    const updatePsy: any = newPsy;
+    updatePsy.firstName = "Juan";
+
+    it('should return the psychologist updated', async () => {
+      jest.spyOn(service, "findOne")
+        .mockReturnValueOnce(usersArray[0] as any)
+        .mockReturnValueOnce(updatePsy);
+
+      expect(await service.updatePsychologist("1", updatePsy)).toEqual(updatePsy);
+    });
+
+    it('should throw not found error if id does not exist', async () => {
+      jest.spyOn(service, "findOne").mockImplementationOnce(() => {
+        throw new NotFoundException();
+      });
+
+      try {
+        await service.updatePsychologist("1", updatePsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+
+    it('should throw conflict error if email already exists', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.updatePsychologist("1", updatePsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw conflict error if taxId already exists', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.updatePsychologist("1", updatePsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw conflict error if psychologist codopsi already exists', async () => {
+      jest.spyOn(service, "findOne").mockReturnValueOnce(usersArray[0] as any);
+      
+      jest.spyOn(model, "findOneAndUpdate").mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      try {
+        await service.updatePsychologist("1", updatePsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+  });
+
+  describe('updatePatient', () => {
+    const updatePatient: any = newPsy;
+    updatePatient.firstName = "Juan";
+
+    it('should return the patient updated', async () => {
+      jest.spyOn(service, "findOne")
+        .mockReturnValueOnce(usersArray[2] as any)
+        .mockReturnValueOnce(updatePatient);
+
+      expect(await service.updatePatient("1", updatePatient)).toEqual(updatePatient);
+    });
+
+    it('should throw not found error if id does not exist', async () => {
+      jest.spyOn(service, "findOne").mockImplementationOnce(() => {
+        throw new NotFoundException();
+      });
+
+      try {
+        await service.updatePsychologist("1", updatePatient);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+
+    it('should throw not found error if taxId already exists', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.updatePsychologist("1", updatePatient);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw conflict error if email already exists', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.updatePsychologist("1", updatePatient);
       } catch (error) {
         expect(error).toBeInstanceOf(ConflictException);
       }

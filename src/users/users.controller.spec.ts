@@ -5,7 +5,12 @@ import { usersArray } from './users.service.spec';
 
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { CreatePsychologistUserDto, CreateUserDto } from './dto';
+import {
+  CreatePsychologistUserDto,
+  CreateUserDto,
+  UpdatePatientUserDto,
+  UpdatePsychologistUserDto
+} from './dto';
 
 const createdPsy = {
   _id: '4',
@@ -28,6 +33,12 @@ newPsy.email = 'liz@gmail.com';
 newPsy.password = 'L123asf2';
 newPsy.psychologist = { codopsi: '1294323' };
 
+const updatePsy = usersArray[0];
+updatePsy.firstName = "Juan";
+
+const updatePatient = usersArray[2];
+updatePatient.firstName = "Juan";
+
 describe('UsersController', () => {
   let controller: UsersController;
   let service: UsersService;
@@ -39,6 +50,7 @@ describe('UsersController', () => {
         {
           provide: UsersService,
           useValue: {
+            findAllPsychologists: jest.fn(),
             findOne: jest.fn()
               .mockImplementationOnce((id: string) => usersArray.find(x => x._id === id))
               .mockImplementationOnce((id: string) => { throw new NotFoundException() })
@@ -47,7 +59,13 @@ describe('UsersController', () => {
               .mockImplementationOnce((user: CreateUserDto) => createdPsy)
               .mockImplementationOnce((user: CreateUserDto) => { throw new ConflictException() }),
             update: jest.fn()
-              .mockImplementationOnce((id: string) => ({ ...createdPsy, isActive: false }))
+              .mockImplementationOnce((id: string) => ({ ...createdPsy, isActive: false })),
+            updatePsychologist: jest.fn()
+              .mockImplementationOnce((psychologist: UpdatePsychologistUserDto) => updatePsy)
+              .mockImplementationOnce((psychologist: UpdatePsychologistUserDto) => { throw new NotFoundException() }),
+            updatePatient: jest.fn()
+              .mockImplementationOnce((patient: UpdatePatientUserDto) => updatePatient)
+              .mockImplementationOnce((patient: UpdatePatientUserDto) => { throw new NotFoundException() })
           }
         }
       ],
@@ -59,6 +77,16 @@ describe('UsersController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('findAllPsychologists', () => {
+    it('should return an array of active psychologists', () => {
+      jest.spyOn(service, "findAllPsychologists").mockReturnValueOnce(
+        usersArray.filter(x => x.psychologist && x.isActive) as any
+      );
+
+      expect(controller.findAllPsychologists()).toEqual([usersArray[0]]);
+    });
   });
 
   describe('findOne', () => {
@@ -83,19 +111,33 @@ describe('UsersController', () => {
     });
   });
 
-  // describe('createPsychologist', () => {
-  //   it('should create new psychologist', () => {
-  //     expect(controller.createPsychologist(newPsy)).toEqual(createdPsy);
-  //   });
+  describe('updatePsychologist', () => {
+    it('should return the updated psychologist', () => {
+      expect(controller.updatePsychologist("1", updatePsy)).toEqual(updatePsy);
+    });
 
-  //   it('should throw conflict error if id exists', () => {
-  //     try {
-  //       controller.createPsychologist(newPsy);
-  //     } catch (error) {
-  //       expect(error).toBeInstanceOf(ConflictException);
-  //     }
-  //   });
-  // });
+    it('should throw not found error if id does not exist', () => {
+      try {
+        controller.updatePsychologist("4", updatePsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
+
+  describe('updatePatient', () => {
+    it('should return the updated patient', () => {
+      expect(controller.updatePatient("3", updatePatient)).toEqual(updatePatient);
+    });
+
+    it('should throw not found error if id does not exist', () => {
+      try {
+        controller.updatePatient("4", updatePatient);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+  });
 
   describe('remove', () => {
     it('should has isActive false', () => {
