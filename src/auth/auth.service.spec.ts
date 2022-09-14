@@ -9,8 +9,9 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { hashPassword, verifyPassword } from './security/bcrypt.security';
 
+import { usersArray } from '../../test/data';
+
 import { User } from '../users/entities';
-import { usersArray } from '../users/users.service.spec';
 import { LoginUserDto } from './dto';
 import { ValidRoles } from './interfaces';
 import { CreateUserDto } from '../users/dto';

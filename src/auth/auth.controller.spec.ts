@@ -3,8 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
-import { usersArray } from '../users/users.service.spec';
-import { CreateUserDto } from '../users/dto';
+import { usersArray } from '../../test/data';
+
 import { LoginUserDto } from './dto';
 import { ValidRoles } from './interfaces';
 

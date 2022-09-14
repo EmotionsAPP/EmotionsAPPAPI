@@ -1,7 +1,7 @@
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { usersArray } from './users.service.spec';
+import { usersArray } from '../../test/data';
 
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';

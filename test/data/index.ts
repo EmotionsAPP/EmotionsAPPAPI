@@ -1,0 +1,1 @@
+export { createPsychologist, usersArray } from "./users.data";
