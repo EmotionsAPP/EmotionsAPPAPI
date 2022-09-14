@@ -14,7 +14,7 @@ import { User } from './entities';
 @Injectable()
 export class UsersService {
 
-  private userLogger = new Logger('UserService');
+  private logger = new Logger('UserService');
 
   constructor(
     @InjectModel( User.name )
@@ -114,7 +114,7 @@ export class UsersService {
     if ( error.code === 11000 )
       throw new ConflictException(`User with ${ JSON.stringify( error.keyValue ) } already exists`);
 
-    this.userLogger.error( error );
+    this.logger.error( error );
     throw new InternalServerErrorException("Can't create or update User - Check server logs");
   }
 }
