@@ -31,4 +31,9 @@ export class AppointmentsController {
   update(@Param('id') id: string, @Body() updateAppointmentDto: UpdateAppointmentDto) {
     return this.appointmentsService.update( id, updateAppointmentDto );
   }
+
+  @Delete(':id')
+  disable(@Param('id') id: string) {
+    return this.appointmentsService.update( id, { isActive: false } );
+  }
 }
