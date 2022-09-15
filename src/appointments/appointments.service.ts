@@ -45,7 +45,9 @@ export class AppointmentsService {
 
   async findOne( id: string ) {
     
-    const appointment = await this.appointmentModel.findById( id );
+    const appointment = await this.appointmentModel.findById( id )
+      .populate('psychologist')
+      .populate('patient');
 
     if ( !appointment )
       throw new NotFoundException(`Appointment with id ${id} does not found`);
