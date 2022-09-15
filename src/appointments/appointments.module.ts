@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PassportModule } from '@nestjs/passport';
 
 import { AppointmentsService } from './appointments.service';
 import { AppointmentsController } from './appointments.controller';
 
 import { Appointment, AppointmentSchema } from './entities/appointment.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { Appointment, AppointmentSchema } from './entities/appointment.entity';
       }
     ]),
 
-    PassportModule
+    AuthModule
   ],
   controllers: [ AppointmentsController ],
   providers: [ AppointmentsService ]
