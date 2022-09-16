@@ -6,7 +6,7 @@ import { createMock } from '@golevelup/ts-jest';
 
 import { ValidRoles } from '../interfaces';
 import { UserRoleGuard } from './user-role.guard';
-import { usersArray } from '../../users/users.service.spec';
+import { usersArray } from '../../../test/data';
 
 const emptyValidRoles: ValidRoles[] = [];
 const validRoles: ValidRoles[] = [ValidRoles.Psychologist, ValidRoles.Patient];
