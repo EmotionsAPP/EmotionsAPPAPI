@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsArray, IsDate, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
 import { CreatePsychologistDto, CreateUserDto } from '.';

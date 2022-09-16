@@ -1,29 +1,28 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AppointmentsService } from './appointments.service';
 
-import {
-  CreateAppointmentDto,
-  FindAllAppointmentsDto,
-  UpdateAppointmentDto
-} from './dto';
+import { CreateAppointmentDto, FindAllAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { Appointment } from './entities/appointment.entity';
 
+@ApiTags('Appointments')
 @Controller('appointments')
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Post()
-  create(@Body() createAppointmentDto: CreateAppointmentDto) {
+  create(@Body() createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
     return this.appointmentsService.create( createAppointmentDto );
   }
 
   @Get()
-  findAll(@Body() findAllAppointmentsDto: FindAllAppointmentsDto) {
+  findAll(@Body() findAllAppointmentsDto: FindAllAppointmentsDto): Promise<Appointment[]> {
     return this.appointmentsService.findAll( findAllAppointmentsDto );
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Appointment> {
     return this.appointmentsService.findOne( id );
   }
 
