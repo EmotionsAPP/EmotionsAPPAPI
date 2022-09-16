@@ -23,11 +23,12 @@ export class ArticlesService {
   }
 
   async findOne( id: string ) {
-    const article = await this.articleModel.findById( id )
-      .populate('psychologist');
+    const article = await this.articleModel.findById( id );
 
     if ( !article )
       throw new NotFoundException(`Article with id ${id} not found`);
+
+    await article.populate('psychologist');
 
     return article;
   }
