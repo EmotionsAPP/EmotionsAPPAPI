@@ -45,12 +45,13 @@ export class AppointmentsService {
 
   async findOne( id: string ) {
     
-    const appointment = await this.appointmentModel.findById( id )
-      .populate('psychologist')
-      .populate('patient');
+    const appointment = await this.appointmentModel.findById( id );
 
     if ( !appointment )
       throw new NotFoundException(`Appointment with id ${id} does not found`);
+
+    await appointment.populate('psychologist');
+    await appointment.populate('patient');
 
     return appointment;
   }
