@@ -10,7 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as moment from 'moment';
 
-import { CreateAppointmentDto, FindAllAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { CreateAppointmentDto, FindAppointmentsDto, UpdateAppointmentDto } from './dto';
 import { Appointment } from './entities/appointment.entity';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class AppointmentsService {
     }
   }
 
-  async findAll( appointment: FindAllAppointmentsDto ) {
+  async findAll( appointment: FindAppointmentsDto ) {
     return await this.appointmentModel.find({
       $or: [{ psychologist: appointment.userId }, { patient: appointment.userId }],
       start: { $gte: moment.utc(appointment.date).startOf('day') },

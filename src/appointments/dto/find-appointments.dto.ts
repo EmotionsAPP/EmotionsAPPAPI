@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { IsDate, IsMongoId } from "class-validator";
 
-export class FindAllAppointmentsDto {
+export class FindAppointmentsDto {
 
     @IsMongoId()
     userId: string;

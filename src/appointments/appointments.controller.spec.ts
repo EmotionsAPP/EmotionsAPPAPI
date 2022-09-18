@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppointmentsController } from './appointments.controller';
 import { AppointmentsService } from './appointments.service';
 import { createAppointment, createdAppointment, updateAppointment, updatedAppointment } from '../../test/data';
-import { CreateAppointmentDto, FindAllAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { CreateAppointmentDto, FindAppointmentsDto, UpdateAppointmentDto } from './dto';
 
 describe('AppointmentsController', () => {
   let controller: AppointmentsController;
@@ -59,7 +59,7 @@ describe('AppointmentsController', () => {
   describe('findAll', () => {
     it('should return an array of appointments', async () => {
       jest.spyOn(service, "findAll").mockImplementationOnce(
-        (findAll: FindAllAppointmentsDto) => [ createdAppointment ] as any
+        (findAll: FindAppointmentsDto) => [ createdAppointment ] as any
       );
 
       expect(await controller.findAll({
@@ -70,7 +70,7 @@ describe('AppointmentsController', () => {
 
     it('should return an empty array if userId does not exist', async () => {
       jest.spyOn(service, "findAll").mockImplementationOnce(
-        (findAll: FindAllAppointmentsDto) => [] as any
+        (findAll: FindAppointmentsDto) => [] as any
       );
 
       expect(await controller.findAll({
