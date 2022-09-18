@@ -29,7 +29,6 @@ describe('AuthController (e2e)', () => {
   });
 
   afterAll(async () => {
-    await request( app.getHttpServer() ).delete('/seed');
     await app.close();
   });
 
