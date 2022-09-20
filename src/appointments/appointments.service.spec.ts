@@ -45,7 +45,7 @@ describe('AppointmentsService', () => {
       expect( await service.create( createAppointment ) ).toEqual( createdAppointment );
     });
 
-    it('should throw conflict error if user appointment collide', async () => {
+    it('should throw conflict error if user appointment collides', async () => {
       jest.spyOn(model, "find").mockReturnValue([ createAppointment ] as any);
 
       try {
@@ -98,7 +98,7 @@ describe('AppointmentsService', () => {
       expect( await service.update("1", updateAppointment) ).toEqual( updatedAppointment );
     });
 
-    it('should throw conflict error if update appointment collide', async () => {
+    it('should throw conflict error if update appointment collides', async () => {
       jest.spyOn(model, "find").mockReturnValueOnce([ createdAppointment ] as any);
       
       try {

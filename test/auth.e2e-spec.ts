@@ -89,13 +89,6 @@ describe('AuthController (e2e)', () => {
         .send( duplicatedPatient[1] )
         .expect( 409 );
     });
-
-    it('should throw conflict error if user codopsi already exists', async () => {
-      await request( app.getHttpServer() )
-        .post('/auth/psychologists')
-        .send( duplicatedPatient[2] )
-        .expect( 409 );
-    });
   });
 
   describe('/auth/login/psychologists (POST)', () => {
