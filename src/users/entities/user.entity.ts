@@ -4,8 +4,6 @@ import { Patient, Psychologist } from '.';
 
 @Schema({ timestamps: true })
 export class User extends Document {
-  @Prop({ unique: true, index: true })
-  taxId: string;
 
   @Prop()
   firstName: string;

@@ -8,10 +8,6 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
-  
-  @IsString()
-  @Length(11, 11)
-  taxId: string;
 
   @IsString()
   @Length(1, 50)

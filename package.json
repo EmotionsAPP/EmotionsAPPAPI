@@ -87,8 +87,20 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "./test/setup.ts"
+    "coveragePathIgnorePatterns": [
+      "interfaces",
+      "dto",
+      "dtos",
+      "entities",
+      "validators",
+      "strategies",
+      "decorators",
+      "security",
+      "seed",
+      "calling",
+      ".*\\.module\\.ts$",
+      "main.ts",
+      "index.ts"
     ]
   }
 }

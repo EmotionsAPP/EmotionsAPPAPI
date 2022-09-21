@@ -15,12 +15,11 @@ const duplicateError = new MongoError("");
 duplicateError.code = 11000;
 
 const newPsy = new CreatePsychologistUserDto();
-newPsy.taxId = '12392142935';
 newPsy.firstName = 'Liz';
 newPsy.lastName = 'Campusano';
 newPsy.email = 'liz@gmail.com';
 newPsy.password = 'L123asf2';
-newPsy.psychologist = { codopsi: '1294323' };
+newPsy.psychologist = { cedula: '12392142935' };
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -98,14 +97,13 @@ describe('UsersService', () => {
     it('should return the psychologist created', async () => {
       const createdPsy = {
         _id: '4',
-        taxId: '12392142935',
         firstName: 'Liz',
         lastName: 'Campusano',
         email: 'liz@gmail.com',
         password: 'L123asf2',
         isActive: true,
         psychologist: {
-          codopsi: '1294323'
+          cedula: '12392142935'
         }
       };
 
@@ -119,7 +117,6 @@ describe('UsersService', () => {
     it('should return the patient created', async () => {
       const createdPatient = {
         _id: '5',
-        taxId: '12392142936',
         firstName: 'Ale',
         lastName: 'Veloz',
         email: 'ale@gmail.com',
@@ -133,7 +130,6 @@ describe('UsersService', () => {
       );
 
       const newPatient = new CreatePatientUserDto();
-      newPatient.taxId = '12392142935';
       newPatient.firstName = 'Liz';
       newPatient.lastName = 'Campusano';
       newPatient.email = 'liz@gmail.com';
@@ -221,7 +217,7 @@ describe('UsersService', () => {
       }
     });
 
-    it('should throw conflict error if taxId already exists', async () => {
+    it('should throw conflict error if cedula already exists', async () => {
       const userDb: any = usersArray[0];
       userDb.updateOne = jest.fn().mockImplementationOnce(() => {
         throw duplicateError;
@@ -272,21 +268,6 @@ describe('UsersService', () => {
         await service.updatePsychologist("1", updatePatient);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
-      }
-    });
-
-    it('should throw not found error if taxId already exists', async () => {
-      const userDb: any = usersArray[0];
-      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
-        throw duplicateError;
-      });
-
-      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
-
-      try {
-        await service.updatePsychologist("1", updatePatient);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ConflictException);
       }
     });
 

@@ -72,7 +72,7 @@ describe('ArticlesController (e2e)', () => {
 
     it('should throw not found error if id does not exist', async () => {
       await request( app.getHttpServer() )
-        .get(`/articles/12`)
+        .get(`/articles/6112e99bf9144501281638c9`)
         .set('Authorization', userData.token)
         .expect(404);
     });
@@ -95,7 +95,7 @@ describe('ArticlesController (e2e)', () => {
 
     it('should throw not found error if id does not exist', async () => {
       await request( app.getHttpServer() )
-        .patch(`/articles/12`)
+        .patch(`/articles/6112e99bf9144501281638c9`)
         .send({ title: 'new title' })
         .set('Authorization', userData.token)
         .expect(404);

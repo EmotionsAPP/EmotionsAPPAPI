@@ -7,8 +7,9 @@ import { IsWorkPlaces } from '../validators/is-workplace.validator';
 
 export class CreatePsychologistDto {
 
-  @Length(7, 7)
-  codopsi: string;
+  @IsString()
+  @Length(11, 11)
+  cedula: string;
 }
 
 export class CreatePsychologistUserDto extends CreateUserDto {

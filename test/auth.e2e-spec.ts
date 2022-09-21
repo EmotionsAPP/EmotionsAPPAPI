@@ -44,7 +44,7 @@ describe('AuthController (e2e)', () => {
       expect( data.body ).toMatchObject( expectedPsychologist );
     });
 
-    it('should throw conflict error if user taxId already exists', async () => {
+    it('should throw conflict error if user cedula already exists', async () => {
       await request( app.getHttpServer() )
         .post('/auth/psychologists')
         .send( duplicatedPsychologists[0] )
@@ -57,35 +57,21 @@ describe('AuthController (e2e)', () => {
         .send( duplicatedPsychologists[1] )
         .expect( 409 );
     });
-
-    it('should throw conflict error if user codopsi already exists', async () => {
-      await request( app.getHttpServer() )
-        .post('/auth/psychologists')
-        .send( duplicatedPsychologists[2] )
-        .expect( 409 );
-    });
   });
 
   describe('/auth/patients (POST)', () => {
     it('should return the user with id', async () => {
       const data = await request( app.getHttpServer() )
-        .post('/auth/psychologists')
+        .post('/auth/patients')
         .send( createPatient )
         .expect( 201 );
 
       expect( data.body ).toMatchObject( expectedPatient );
     });
 
-    it('should throw conflict error if user taxId already exists', async () => {
-      await request( app.getHttpServer() )
-        .post('/auth/psychologists')
-        .send( duplicatedPatient[0] )
-        .expect( 409 );
-    });
-
     it('should throw conflict error if user email already exists', async () => {
       await request( app.getHttpServer() )
-        .post('/auth/psychologists')
+        .post('/auth/patients')
         .send( duplicatedPatient[1] )
         .expect( 409 );
     });
@@ -131,7 +117,7 @@ describe('AuthController (e2e)', () => {
           password: createPatient.password
         }).expect(201);
       
-      expect( data.body ).toMatchObject( expectedPsychologist );
+      expect( data.body ).toMatchObject( expectedPatient );
     });
 
     it('should throw unauthorized error if user is not found', async () => {
@@ -157,7 +143,7 @@ describe('AuthController (e2e)', () => {
     it('should return the user with a new token', async () => {
       const data: Response<UserAuth> = await request( app.getHttpServer() )
         .get('/auth/check-status')
-        .set('Authorization', userToken)
+        .auth(userToken, { type: 'bearer' })
         .expect(200);
       
       expect( data.body ).toMatchObject( expectedPsychologist );

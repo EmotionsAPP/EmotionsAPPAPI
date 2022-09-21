@@ -14,24 +14,22 @@ import {
 
 const createdPsy = {
   _id: '4',
-  taxId: '12392142935',
   firstName: 'Liz',
   lastName: 'Campusano',
   email: 'liz@gmail.com',
   password: 'L123asf2',
   isActive: true,
   psychologist: {
-    codopsi: '1294323'
+    cedula: '12392142935'
   }
 };
 
 const newPsy = new CreatePsychologistUserDto();
-newPsy.taxId = '12392142935';
 newPsy.firstName = 'Liz';
 newPsy.lastName = 'Campusano';
 newPsy.email = 'liz@gmail.com';
 newPsy.password = 'L123asf2';
-newPsy.psychologist = { codopsi: '1294323' };
+newPsy.psychologist = { cedula: '12392142935' };
 
 const updatePsy = usersArray[0];
 updatePsy.firstName = "Juan";

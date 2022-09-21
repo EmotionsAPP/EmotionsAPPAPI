@@ -26,7 +26,6 @@ user.toObject = jest.fn(() => ( user ));
 const createUser: CreateUserDto = {
   email: user.email,
   password: user.password,
-  taxId: user.taxId,
   firstName: user.firstName,
   lastName: user.lastName
 };

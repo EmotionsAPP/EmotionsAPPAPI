@@ -4,7 +4,6 @@ export const mockUser = (
     user: Partial<User>
 ): Partial<User> => ({
     _id: user?._id,
-    taxId: user?.taxId,
     firstName: user?.firstName,
     lastName: user?.lastName,
     email: user?.email,
