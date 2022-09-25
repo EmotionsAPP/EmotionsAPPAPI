@@ -1,4 +1,4 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 
@@ -178,6 +178,61 @@ describe('UsersService', () => {
     });
   });
 
+  describe('update', () => {
+    const updateUser: any = newPsy;
+    updateUser.firstName = "Juan";
+
+    it('should return the user updated', async () => {
+      jest.spyOn(service, "findOne")
+        .mockReturnValueOnce(usersArray[0] as any)
+        .mockReturnValueOnce(updateUser);
+
+      expect(await service.update("1", updateUser)).toEqual(updateUser);
+    });
+
+    it('should throw not found error if id does not exist', async () => {
+      jest.spyOn(service, "findOne").mockImplementationOnce(() => {
+        throw new NotFoundException();
+      });
+
+      try {
+        await service.update("1", updateUser);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+      }
+    });
+
+    it('should throw conflict error if email already exists', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.update("1", updateUser);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw conflict error if cedula already exists', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.update("1", updateUser);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+  });
+
   describe('updatePsychologist', () => {
     const updatePsy: any = newPsy;
     updatePsy.firstName = "Juan";
@@ -283,6 +338,21 @@ describe('UsersService', () => {
         await service.updatePsychologist("1", updatePatient);
       } catch (error) {
         expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw internal server error if throw unexpected error', async () => {
+      const userDb: any = usersArray[0];
+      userDb.updateOne = jest.fn().mockImplementationOnce(() => {
+        throw new MongoError("");
+      });
+
+      jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
+
+      try {
+        await service.updatePsychologist("1", updatePatient);
+      } catch (error) {
+        expect(error).toBeInstanceOf( InternalServerErrorException );
       }
     });
   });

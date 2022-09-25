@@ -44,6 +44,7 @@ jest.mock('./security/bcrypt.security', () => {
     hashPassword: jest.fn(() => user.password),
     verifyPassword: jest.fn()
       .mockReturnValueOnce( true )
+      .mockReturnValueOnce( true )
       .mockReturnValueOnce( false )
   }
 });
@@ -103,6 +104,19 @@ describe('AuthService', () => {
       jest.spyOn(model, "findOne").mockReturnValueOnce( user );
 
       expect(await service.login( loginUser, ValidRoles.Psychologist )).toEqual({ user, token });
+    });
+
+    it('should return user and token if users role is patient', async () => {
+      const patient: any = { 
+        ...usersArray[2], 
+        email: user.email, 
+        password: user.password,
+        toObject: jest.fn(() => ( patient )) 
+      };
+      jest.spyOn(model, "findOne").mockReturnValueOnce( patient );
+
+      const { email, password } = patient;
+      expect(await service.login( { email, password }, ValidRoles.Patient )).toEqual({ user: patient, token });
     });
 
     it('should throw unauthorized exception if user is not found', async () => {

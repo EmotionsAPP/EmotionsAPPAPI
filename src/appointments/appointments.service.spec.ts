@@ -1,8 +1,9 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Model } from 'mongoose';
+import { MongoError } from 'mongodb';
 
 import { AppointmentsService } from './appointments.service';
 import { Appointment } from './entities/appointment.entity';
@@ -19,7 +20,7 @@ describe('AppointmentsService', () => {
         {
           provide: getModelToken( Appointment.name ),
           useValue: {
-            create: jest.fn().mockReturnValue( createdAppointment ),
+            create: jest.fn(),
             find: jest.fn(),
             findOne: jest.fn(),
             findById: jest.fn()
@@ -41,6 +42,7 @@ describe('AppointmentsService', () => {
   describe('create', () => {
     it('should return the created appointment', async () => {
       jest.spyOn(model, "find").mockReturnValue([] as any);
+      jest.spyOn(model, "create").mockReturnValueOnce( createdAppointment as any );
 
       expect( await service.create( createAppointment ) ).toEqual( createdAppointment );
     });
@@ -52,6 +54,16 @@ describe('AppointmentsService', () => {
         await service.create( createAppointment );
       } catch (error) {
         expect( error ).toBeInstanceOf( ConflictException );
+      }
+    });
+
+    it('should throw internal server error if throw unexpected error', async () => {
+      jest.spyOn(model, "create").mockImplementationOnce((create: any) => { throw new MongoError(""); });
+
+      try {
+        await service.create( createAppointment );
+      } catch (error) {
+        expect( error ).toBeInstanceOf( TypeError );
       }
     });
   });
@@ -118,6 +130,19 @@ describe('AppointmentsService', () => {
         await service.update("-1", updateAppointment);
       } catch (error) {
         expect( error ).toBeInstanceOf( NotFoundException );
+      }
+    });
+
+    it('should throw internal server error if throw unexpected error', async () => {
+      jest.spyOn(model, "find").mockReturnValueOnce([] as any);
+      jest.spyOn(service, "findOne").mockReturnValueOnce({ ...createdAppointment, 
+        updateOne: jest.fn().mockImplementationOnce(() => { throw new MongoError(""); })
+      } as any);
+      
+      try {
+        await service.update("-1", updateAppointment);
+      } catch (error) {
+        expect( error ).toBeInstanceOf( InternalServerErrorException );
       }
     });
   });

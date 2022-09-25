@@ -26,7 +26,7 @@ export default () => {
     http.batch([
         ['POST', `${API_BASE_URL}/auth/login/psychologists`, { email, password }],
         ['GET', `${API_BASE_URL}/articles`],
-        ['GET', `${API_BASE_URL}/appointments?userId=632164d855f8482c3dbe2804&date=2022-09-13`]
+        ['GET', `${API_BASE_URL}/appointments?userId=632fe032a53dee15dc2624da&date=2022-09-13`]
     ]);
 
 };

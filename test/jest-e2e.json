@@ -5,6 +5,5 @@
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  },
-  "testSequencer": "./custom.sequencer.js"
+  }
 }

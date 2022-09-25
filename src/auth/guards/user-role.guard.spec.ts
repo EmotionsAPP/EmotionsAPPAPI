@@ -76,6 +76,15 @@ describe('UserRoleGuard', () => {
     expect(guard.canActivate( context )).toBeTruthy();
   });
 
+  it('should return true if user is psychologist and META_ROLES contains that', () => {
+    jest.spyOn(reflector, "get").mockReturnValueOnce( validRoles );
+
+    const context = createMock<ExecutionContext>();
+    context.switchToHttp().getRequest.mockReturnValue({ user: usersArray[2] });
+
+    expect(guard.canActivate( context )).toBeTruthy();
+  });
+
   it('should throw forbidden exception if user roles is not on META_ROLES', () => {
     jest.spyOn(reflector, "get").mockReturnValueOnce( [validRoles.pop()] );
 

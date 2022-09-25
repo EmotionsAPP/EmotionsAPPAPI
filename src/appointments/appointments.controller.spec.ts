@@ -22,13 +22,6 @@ describe('AppointmentsController', () => {
             findAll: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn()
-              .mockImplementationOnce((id: string, update: UpdateAppointmentDto) => updatedAppointment)
-              .mockImplementationOnce((id: string, update: UpdateAppointmentDto) => {
-                throw new ConflictException();
-              })
-              .mockImplementationOnce((id: string, update: UpdateAppointmentDto) => {
-                throw new NotFoundException();
-              })
           }
         }
       ],
@@ -101,11 +94,19 @@ describe('AppointmentsController', () => {
   });
 
   describe('update', () => {
-    it('should return updated appointment', async () => {      
+    it('should return updated appointment', async () => {
+      jest.spyOn(service, "update").mockImplementationOnce(
+        (id: string, update: UpdateAppointmentDto) => updatedAppointment as any
+      );
+
       expect( await controller.update("1", updateAppointment) ).toEqual( updatedAppointment );
     });
 
-    it('should throw conflict error if update appointment collide', async () => {      
+    it('should throw conflict error if update appointment collide', async () => {
+      jest.spyOn(service, "update").mockImplementationOnce(
+        (id: string, update: UpdateAppointmentDto) => { throw new ConflictException(); }
+      );
+      
       try {
         await controller.update("1", updateAppointment);
       } catch (error) {
@@ -113,12 +114,26 @@ describe('AppointmentsController', () => {
       }
     });
 
-    it('should throw not found error if id does not exist', async () => {      
+    it('should throw not found error if id does not exist', async () => {
+      jest.spyOn(service, "update").mockImplementationOnce(
+        (id: string, update: UpdateAppointmentDto) => { throw new NotFoundException(); }
+      );
+
       try {
         await controller.update("-1", updateAppointment);
       } catch (error) {
         expect( error ).toBeInstanceOf( NotFoundException );
       }
+    });
+  });
+
+  describe('disable', () => {
+    it('should return appointment with isActive false', async () => {
+      jest.spyOn(service, "update").mockImplementation(
+        (id: string, update: UpdateAppointmentDto) => ({ ...createdAppointment, isActive: false }) as any
+      );
+
+      expect(await controller.disable("1")).toEqual({ ...createdAppointment, isActive: false });
     });
   });
 });

@@ -54,7 +54,7 @@ describe('AuthController', () => {
     it('should return user and token', async () => {
       jest.spyOn(service, "register").mockReturnValueOnce({ user: psychologist, token } as any);
 
-      expect(await service.register( psychologist )).toEqual({ user: psychologist, token });
+      expect(await controller.createPsychologist( psychologist )).toEqual({ user: psychologist, token });
     });
   });
 
@@ -62,7 +62,7 @@ describe('AuthController', () => {
     it('should return user and token', async () => {
       jest.spyOn(service, "register").mockReturnValueOnce({ user: patient, token } as any);
 
-      expect(await service.register( patient )).toEqual({ user: patient, token });
+      expect(await controller.createPatient( patient )).toEqual({ user: patient, token });
     });
   });
 
@@ -70,21 +70,21 @@ describe('AuthController', () => {
     it('should return user and token if users role is psychologist', async () => {
       jest.spyOn(service, "login").mockReturnValueOnce({ user: psychologist, token } as any);
 
-      expect(await service.login( loginUser, ValidRoles.Psychologist )).toEqual({ user: psychologist, token });
+      expect(await controller.loginPsychologist( loginUser )).toEqual({ user: psychologist, token });
     });
   });
 
   describe('loginPatient', () => {
-    it('should return user and token if users role is psychologist', async () => {
+    it('should return user and token if users role is patient', async () => {
       jest.spyOn(service, "login").mockReturnValueOnce({ user: patient, token } as any);
 
-      expect(await service.login( loginUser, ValidRoles.Patient )).toEqual({ user: patient, token });
+      expect(await controller.loginPatient( loginUser )).toEqual({ user: patient, token });
     });
   });
 
   describe('checkAuthStatus', () => {
     it('should return user and token', async () => {
-      expect(await service.checkAuthStatus( psychologist )).toEqual({ user: psychologist, token });
+      expect(await controller.checkAuthStatus( psychologist )).toEqual({ user: psychologist, token });
     });
   });
 });
