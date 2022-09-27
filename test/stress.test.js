@@ -1,7 +1,7 @@
 import http from 'k6/http';
-import { createPsychologist } from './data';
 
-const { email, password } = createPsychologist;
+const email = "test.psychologist@gmail.com";
+const password = "Test1239S";
 
 export let options = {
     insecureSkipTLVerify: true,

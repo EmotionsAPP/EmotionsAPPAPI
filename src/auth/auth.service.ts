@@ -30,24 +30,16 @@ export class AuthService {
 
     const user = await this.usersService.create( createUserDto );
 
-    return this.checkAuthStatus( user );
+    return this.checkAuthStatus( await this.populateUser( user ) );
   }
 
-  async login( loginUserDto: LoginUserDto, validRole: ValidRoles ) {
+  async login( loginUserDto: LoginUserDto ) {
 
     const { email, password } = loginUserDto;
 
-    let user: User;
-
-    if (validRole === ValidRoles.Psychologist) {
-      user = await this.userModel.findOne({
-        email, isActive: true, psychologist: { $ne: null }
-      });
-    } else {
-      user = await this.userModel.findOne({
-        email, isActive: true, patient: { $ne: null }
-      });
-    }
+    const user = await this.userModel.findOne({
+      email, isActive: true
+    });
 
     if ( !user )
       throw new UnauthorizedException("Email is not valid");
@@ -55,7 +47,7 @@ export class AuthService {
     if ( !(await verifyPassword( password, user.password )) )
       throw new UnauthorizedException("Password is not valid");
 
-    return this.checkAuthStatus( user );
+    return this.checkAuthStatus( await this.populateUser( user ) );
   }
 
   async checkAuthStatus( user: User ) {
@@ -64,6 +56,13 @@ export class AuthService {
       user: { ...user.toObject() },
       token: this.getJwtToken({ id: user.id })
     }
+  }
+
+  private async populateUser( user: User ) {
+    if ( user.psychologist )
+      return await user.populate('psychologist');
+    else
+      return await user.populate('patient');
   }
 
   private getJwtToken( payload: JwtPayload ) {

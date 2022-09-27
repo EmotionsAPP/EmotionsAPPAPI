@@ -25,14 +25,9 @@ export class AuthController {
     return this.authService.register(createPsychologistUserDto);
   }
 
-  @Post('login/patients')
-  loginPatient(@Body() loginUserDto: LoginUserDto) {
-    return this.authService.login( loginUserDto, ValidRoles.Patient );
-  }
-
-  @Post('login/psychologists')
-  loginPsychologist(@Body() loginUserDto: LoginUserDto) {
-    return this.authService.login( loginUserDto, ValidRoles.Psychologist );
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.authService.login( loginUserDto );
   }
 
   @Get('check-status')
