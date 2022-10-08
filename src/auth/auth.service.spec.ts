@@ -22,6 +22,7 @@ const user: any = usersArray[0];
 user.email = "test";
 user.password = "Af91249fa";
 user.toObject = jest.fn(() => ( user ));
+user.populate = jest.fn(() => ( user ));
 
 const createUser: CreateUserDto = {
   email: user.email,
@@ -103,7 +104,7 @@ describe('AuthService', () => {
     it('should return user and token if users role is psychologist', async () => {
       jest.spyOn(model, "findOne").mockReturnValueOnce( user );
 
-      expect(await service.login( loginUser, ValidRoles.Psychologist )).toEqual({ user, token });
+      expect(await service.login( loginUser )).toEqual({ user, token });
     });
 
     it('should return user and token if users role is patient', async () => {
@@ -111,19 +112,20 @@ describe('AuthService', () => {
         ...usersArray[2], 
         email: user.email, 
         password: user.password,
-        toObject: jest.fn(() => ( patient )) 
+        toObject: jest.fn(() => ( patient )),
+        populate: jest.fn(() => ( patient ))
       };
       jest.spyOn(model, "findOne").mockReturnValueOnce( patient );
 
       const { email, password } = patient;
-      expect(await service.login( { email, password }, ValidRoles.Patient )).toEqual({ user: patient, token });
+      expect(await service.login( { email, password } )).toEqual({ user: patient, token });
     });
 
     it('should throw unauthorized exception if user is not found', async () => {
       jest.spyOn(model, "findOne").mockReturnValueOnce( undefined );
 
       try {
-        await service.login( loginUser, ValidRoles.Psychologist );
+        await service.login( loginUser );
       } catch (error) {
         expect(error).toBeInstanceOf(UnauthorizedException);
       }
@@ -133,7 +135,7 @@ describe('AuthService', () => {
       jest.spyOn(model, "findOne").mockReturnValueOnce( user );
 
       try {
-        await service.login( loginUser, ValidRoles.Psychologist );
+        await service.login( loginUser );
       } catch (error) {
         expect(error).toBeInstanceOf(UnauthorizedException);
       }

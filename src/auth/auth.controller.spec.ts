@@ -70,7 +70,7 @@ describe('AuthController', () => {
     it('should return user and token if users role is psychologist', async () => {
       jest.spyOn(service, "login").mockReturnValueOnce({ user: psychologist, token } as any);
 
-      expect(await controller.loginPsychologist( loginUser )).toEqual({ user: psychologist, token });
+      expect(await controller.login( loginUser )).toEqual({ user: psychologist, token });
     });
   });
 
@@ -78,7 +78,7 @@ describe('AuthController', () => {
     it('should return user and token if users role is patient', async () => {
       jest.spyOn(service, "login").mockReturnValueOnce({ user: patient, token } as any);
 
-      expect(await controller.loginPatient( loginUser )).toEqual({ user: patient, token });
+      expect(await controller.login( loginUser )).toEqual({ user: patient, token });
     });
   });
 
