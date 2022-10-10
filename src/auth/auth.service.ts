@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -10,7 +10,7 @@ import { hashPassword, verifyPassword } from './security';
 import { User } from '../users/entities';
 import { JwtPayload, ValidRoles } from './interfaces';
 import { LoginUserDto } from './dto';
-import { CreateUserDto } from '../users/dto';
+import { CreatePsychologistUserDto, CreateUserDto } from '../users/dto';
 
 @Injectable()
 export class AuthService {
@@ -23,6 +23,14 @@ export class AuthService {
 
     private readonly jwtService: JwtService
   ) {}
+
+  async validatePsychologist( createPsychologist: CreatePsychologistUserDto ) {
+    const notExists: boolean = await this.usersService.validatePsychologist( createPsychologist );
+
+    if (!notExists) {
+      throw new ConflictException("Cedula already exists");
+    }
+  }
 
   async register( createUserDto: CreateUserDto ) {
     

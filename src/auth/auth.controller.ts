@@ -21,7 +21,8 @@ export class AuthController {
   }
 
   @Post('psychologists')
-  createPsychologist(@Body() createPsychologistUserDto: CreatePsychologistUserDto) {
+  async createPsychologist(@Body() createPsychologistUserDto: CreatePsychologistUserDto) {
+    await this.authService.validatePsychologist( createPsychologistUserDto );
     return this.authService.register(createPsychologistUserDto);
   }
 

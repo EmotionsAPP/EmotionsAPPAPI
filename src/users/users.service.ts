@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import {
+  CreatePsychologistUserDto,
   CreateUserDto,
   UpdatePatientUserDto,
   UpdatePsychologistUserDto,
@@ -20,6 +21,12 @@ export class UsersService {
     @InjectModel( User.name )
     private readonly userModel: Model<User>,
   ) {}
+
+  async validatePsychologist(psychologist: CreatePsychologistUserDto): Promise<boolean> {
+    const user = await this.userModel.findOne({ "psychologist.cedula": psychologist.psychologist.cedula });
+
+    return (!user);
+  }
 
   async create( createUserDto: CreateUserDto ) {
     
