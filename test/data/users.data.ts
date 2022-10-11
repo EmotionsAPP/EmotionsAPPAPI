@@ -4,9 +4,9 @@ import { CreatePatientUserDto, CreatePsychologistUserDto } from "../../src/users
 
 export const usersArray = [
     mockUser({ _id: "1", isActive: true,
-        psychologist: mockPsychologist({ _id: "1", cedula: "12392142932" }) as any }),
+        psychologist: mockPsychologist({ _id: "1", idCardNo: "12392142932" }) as any }),
     mockUser({ _id: "2", isActive: false,
-        psychologist: mockPsychologist({ _id: "2", cedula: "12392142933" }) as any }),
+        psychologist: mockPsychologist({ _id: "2", idCardNo: "12392142933" }) as any }),
     mockUser({ _id: "3", isActive: true,
         patient: mockPatient({}) as any }),
 ];
@@ -17,7 +17,7 @@ export const createPsychologist: CreatePsychologistUserDto = {
     email: "test.psychologist@gmail.com",
     password: "Test1239S",
     psychologist: {
-        cedula: "12312312312"
+        idCardNo: "12312312312"
     }
 };
 
@@ -33,10 +33,10 @@ export const expectedPsychologist = {
 
 export const duplicatedPsychologists = [
     mockUser({ email: "test2.psychologist2@gmail.com", password: createPsychologist.password, 
-        psychologist: { cedula: createPsychologist.psychologist.cedula } as any
+        psychologist: { idCardNo: createPsychologist.psychologist.idCardNo } as any
     }),
     mockUser({ email: createPsychologist.email, password: createPsychologist.password, 
-        psychologist: { cedula: "12345678901" } as any
+        psychologist: { idCardNo: "12345678901" } as any
     }),
 ];
 

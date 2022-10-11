@@ -3,7 +3,7 @@ import { Psychologist } from "../../src/users/entities";
 export const mockPsychologist = (
     psy: Partial<Psychologist>
 ): Partial<Psychologist> => ({
-    cedula: psy?.cedula,
+    idCardNo: psy?.idCardNo,
     title: psy?.title,
     firstWorkDate: psy?.firstWorkDate,
     about: psy?.about,

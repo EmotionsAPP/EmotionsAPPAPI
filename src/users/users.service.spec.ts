@@ -19,7 +19,7 @@ newPsy.firstName = 'Liz';
 newPsy.lastName = 'Campusano';
 newPsy.email = 'liz@gmail.com';
 newPsy.password = 'L123asf2';
-newPsy.psychologist = { cedula: '12392142935' };
+newPsy.psychologist = { idCardNo: '12392142935' };
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -103,7 +103,7 @@ describe('UsersService', () => {
         password: 'L123asf2',
         isActive: true,
         psychologist: {
-          cedula: '12392142935'
+          idCardNo: '12392142935'
         }
       };
 
@@ -217,7 +217,7 @@ describe('UsersService', () => {
       }
     });
 
-    it('should throw conflict error if cedula already exists', async () => {
+    it('should throw conflict error if idCardNo already exists', async () => {
       const userDb: any = usersArray[0];
       userDb.updateOne = jest.fn().mockImplementationOnce(() => {
         throw duplicateError;
@@ -272,7 +272,7 @@ describe('UsersService', () => {
       }
     });
 
-    it('should throw conflict error if cedula already exists', async () => {
+    it('should throw conflict error if idCardNo already exists', async () => {
       const userDb: any = usersArray[0];
       userDb.updateOne = jest.fn().mockImplementationOnce(() => {
         throw duplicateError;

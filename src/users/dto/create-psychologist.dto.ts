@@ -9,7 +9,7 @@ export class CreatePsychologistDto {
 
   @IsString()
   @Length(11, 11)
-  cedula: string;
+  idCardNo: string;
 }
 
 export class CreatePsychologistUserDto extends CreateUserDto {

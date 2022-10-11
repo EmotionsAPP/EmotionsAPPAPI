@@ -23,7 +23,7 @@ export class UsersService {
   ) {}
 
   async validatePsychologist(psychologist: CreatePsychologistUserDto): Promise<boolean> {
-    const user = await this.userModel.findOne({ "psychologist.cedula": psychologist.psychologist.cedula });
+    const user = await this.userModel.findOne({ "psychologist.idCardNo": psychologist.psychologist.idCardNo });
 
     return (!user);
   }

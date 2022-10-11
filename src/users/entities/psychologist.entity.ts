@@ -5,7 +5,7 @@ import { WorkPlace } from '../interfaces';
 @Schema()
 export class Psychologist extends Document {
   @Prop({ index: true })
-  cedula: string;
+  idCardNo: string;
 
   @Prop()
   title?: string;

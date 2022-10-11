@@ -20,7 +20,7 @@ const createdPsy = {
   password: 'L123asf2',
   isActive: true,
   psychologist: {
-    cedula: '12392142935'
+    idCardNo: '12392142935'
   }
 };
 
@@ -29,7 +29,7 @@ newPsy.firstName = 'Liz';
 newPsy.lastName = 'Campusano';
 newPsy.email = 'liz@gmail.com';
 newPsy.password = 'L123asf2';
-newPsy.psychologist = { cedula: '12392142935' };
+newPsy.psychologist = { idCardNo: '12392142935' };
 
 const updatePsy = usersArray[0];
 updatePsy.firstName = "Juan";
