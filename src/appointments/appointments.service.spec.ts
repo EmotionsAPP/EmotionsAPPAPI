@@ -58,12 +58,13 @@ describe('AppointmentsService', () => {
     });
 
     it('should throw internal server error if throw unexpected error', async () => {
+      jest.spyOn(model, "find").mockReturnValue([] as any);
       jest.spyOn(model, "create").mockImplementationOnce((create: any) => { throw new MongoError(""); });
 
       try {
         await service.create( createAppointment );
       } catch (error) {
-        expect( error ).toBeInstanceOf( TypeError );
+        expect( error ).toBeInstanceOf( InternalServerErrorException );
       }
     });
   });

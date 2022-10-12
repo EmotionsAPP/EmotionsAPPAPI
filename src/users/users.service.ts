@@ -2,6 +2,7 @@ import { ConflictException, Injectable, InternalServerErrorException, Logger, No
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
+import { hashPassword } from '../auth/security';
 
 import {
   CreatePsychologistUserDto,
@@ -22,20 +23,27 @@ export class UsersService {
     private readonly userModel: Model<User>,
   ) {}
 
-  async validatePsychologist(psychologist: CreatePsychologistUserDto): Promise<boolean> {
-    const user = await this.userModel.findOne({ "psychologist.idCardNo": psychologist.psychologist.idCardNo });
-
-    return (!user);
-  }
-
-  async create( createUserDto: CreateUserDto ) {
+  async create( createUserDto: CreateUserDto ): Promise<User | undefined> {
     
     try {
+      createUserDto.password = await hashPassword( createUserDto.password );
+      
       const user = await this.userModel.create( createUserDto );
       return user;
     } catch (error) {
       this.handleExceptions( error );
     }
+  }
+
+  async createPsychologist( psychologist: CreatePsychologistUserDto ): Promise<User | undefined> {
+
+    const user = await this.userModel.findOne({ "psychologist.idCardNo": psychologist.psychologist.idCardNo });
+
+    if (user) {
+      throw new ConflictException("Cedula already exists");
+    }
+
+    return await this.create( psychologist );
   }
 
   findAllPsychologists() {

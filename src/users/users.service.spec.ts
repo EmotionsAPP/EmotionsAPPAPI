@@ -21,6 +21,16 @@ newPsy.email = 'liz@gmail.com';
 newPsy.password = 'L123asf2';
 newPsy.psychologist = { idCardNo: '12392142935' };
 
+jest.mock('../auth/security/bcrypt.security', () => {
+  const originalModule = jest.requireActual('../auth/security/bcrypt.security');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    hashPassword: jest.fn((password) => password)
+  }
+});
+
 describe('UsersService', () => {
   let service: UsersService;
   let model: Model<User>;
@@ -93,7 +103,7 @@ describe('UsersService', () => {
     });
   });
 
-  describe('create', () => {
+  describe('createPsychologist', () => {
     it('should return the psychologist created', async () => {
       const createdPsy = {
         _id: '4',
@@ -107,13 +117,55 @@ describe('UsersService', () => {
         }
       };
 
+      jest.spyOn(model, "findOne").mockReturnValueOnce( undefined );
       jest.spyOn(model, "create").mockImplementationOnce(() => 
         Promise.resolve(createdPsy),
       );
       
-      expect(await service.create(newPsy)).toEqual(createdPsy);
+      expect(await service.createPsychologist(newPsy)).toEqual(createdPsy);
     });
 
+    it('should throw conflict error if psychologist idCardNo already exists', async () => {
+      jest.spyOn(model, "findOne").mockReturnValueOnce( newPsy as any );
+      jest.spyOn(model, "create").mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      try {
+        await service.createPsychologist(newPsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw conflict error if id already exists', async () => {
+      jest.spyOn(model, "findOne").mockReturnValueOnce( undefined );
+      jest.spyOn(model, "create").mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      try {
+        await service.createPsychologist(newPsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+
+    it('should throw conflict error if email already exists', async () => {
+      jest.spyOn(model, "findOne").mockReturnValueOnce( undefined );
+      jest.spyOn(model, "create").mockImplementationOnce(() => {
+        throw duplicateError;
+      });
+
+      try {
+        await service.create(newPsy);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConflictException);
+      }
+    });
+  });
+
+  describe('create', () => {
     it('should return the patient created', async () => {
       const createdPatient = {
         _id: '5',
@@ -155,20 +207,6 @@ describe('UsersService', () => {
       jest.spyOn(model, "create").mockImplementationOnce(() => {
         throw duplicateError;
       });
-
-      try {
-        await service.create(newPsy);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ConflictException);
-      }
-    });
-
-    it('should throw conflict error if psychologist codopsi already exists', async () => {
-      jest.spyOn(model, "create").mockImplementationOnce(() => {
-        throw duplicateError;
-      });
-
-      const newPsy = new CreatePsychologistUserDto();
 
       try {
         await service.create(newPsy);

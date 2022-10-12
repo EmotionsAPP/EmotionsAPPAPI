@@ -6,7 +6,6 @@ import { Auth, GetUser } from './decorators';
 
 import { CreatePatientUserDto, CreatePsychologistUserDto } from '../users/dto';
 import { LoginUserDto } from './dto';
-import { ValidRoles } from './interfaces';
 import { User } from '../users/entities';
 
 @ApiTags('Auth')
@@ -22,8 +21,7 @@ export class AuthController {
 
   @Post('psychologists')
   async createPsychologist(@Body() createPsychologistUserDto: CreatePsychologistUserDto) {
-    await this.authService.validatePsychologist( createPsychologistUserDto );
-    return this.authService.register(createPsychologistUserDto);
+    return this.authService.registerPsychologist(createPsychologistUserDto);
   }
 
   @Post('login')

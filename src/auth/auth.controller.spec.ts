@@ -35,6 +35,7 @@ describe('AuthController', () => {
           provide: AuthService,
           useValue: {
             register: jest.fn(),
+            registerPsychologist: jest.fn(),
             login: jest.fn(),
             checkAuthStatus: jest.fn().mockReturnValue({ user: psychologist, token })
           }
@@ -52,7 +53,7 @@ describe('AuthController', () => {
 
   describe('createPsychologist', () => {
     it('should return user and token', async () => {
-      jest.spyOn(service, "register").mockReturnValueOnce({ user: psychologist, token } as any);
+      jest.spyOn(service, "registerPsychologist").mockReturnValueOnce({ user: psychologist, token } as any);
 
       expect(await controller.createPsychologist( psychologist )).toEqual({ user: psychologist, token });
     });

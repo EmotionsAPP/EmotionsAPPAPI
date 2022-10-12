@@ -7,13 +7,11 @@ import { Model } from 'mongoose';
 
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
-import { hashPassword, verifyPassword } from './security/bcrypt.security';
 
 import { usersArray } from '../../test/data';
 
 import { User } from '../users/entities';
 import { LoginUserDto } from './dto';
-import { ValidRoles } from './interfaces';
 import { CreateUserDto } from '../users/dto';
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
@@ -22,7 +20,6 @@ const user: any = usersArray[0];
 user.email = "test";
 user.password = "Af91249fa";
 user.toObject = jest.fn(() => ( user ));
-user.populate = jest.fn(() => ( user ));
 
 const createUser: CreateUserDto = {
   email: user.email,
@@ -63,7 +60,8 @@ describe('AuthService', () => {
         {
           provide: UsersService,
           useValue: {
-            create: jest.fn()
+            create: jest.fn(),
+            createPsychologist: jest.fn()
           }
         },
         {
@@ -97,6 +95,14 @@ describe('AuthService', () => {
       jest.spyOn(userService, "create").mockReturnValueOnce( user );
 
       expect(await service.register( createUser )).toEqual({ user, token });
+    });
+  });
+
+  describe('registerPsychologist', () => {
+    it('should return user and token', async () => {
+      jest.spyOn(userService, "createPsychologist").mockReturnValueOnce( user );
+
+      expect(await service.registerPsychologist( createUser as any )).toEqual({ user, token });
     });
   });
 

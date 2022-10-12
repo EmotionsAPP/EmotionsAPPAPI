@@ -1,11 +1,11 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 
 import { UsersService } from '../users/users.service';
-import { hashPassword, verifyPassword } from './security';
+import { verifyPassword } from './security';
 
 import { User } from '../users/entities';
 import { JwtPayload, ValidRoles } from './interfaces';
@@ -24,21 +24,18 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  async validatePsychologist( createPsychologist: CreatePsychologistUserDto ) {
-    const notExists: boolean = await this.usersService.validatePsychologist( createPsychologist );
-
-    if (!notExists) {
-      throw new ConflictException("Cedula already exists");
-    }
-  }
-
   async register( createUserDto: CreateUserDto ) {
-    
-    createUserDto.password = await hashPassword( createUserDto.password );
 
     const user = await this.usersService.create( createUserDto );
 
-    return this.checkAuthStatus( await this.populateUser( user ) );
+    return this.checkAuthStatus( await user );
+  }
+
+  async registerPsychologist( createPsychologist: CreatePsychologistUserDto ) {
+
+    const user = await this.usersService.createPsychologist( createPsychologist );
+
+    return this.checkAuthStatus( await user );
   }
 
   async login( loginUserDto: LoginUserDto ) {
@@ -55,7 +52,7 @@ export class AuthService {
     if ( !(await verifyPassword( password, user.password )) )
       throw new UnauthorizedException("Password is not valid");
 
-    return this.checkAuthStatus( await this.populateUser( user ) );
+    return this.checkAuthStatus( await user );
   }
 
   async checkAuthStatus( user: User ) {
@@ -64,13 +61,6 @@ export class AuthService {
       user: { ...user.toObject() },
       token: this.getJwtToken({ id: user.id })
     }
-  }
-
-  private async populateUser( user: User ) {
-    if ( user.psychologist )
-      return await user.populate('psychologist');
-    else
-      return await user.populate('patient');
   }
 
   private getJwtToken( payload: JwtPayload ) {
