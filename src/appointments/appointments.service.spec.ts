@@ -8,6 +8,7 @@ import { MongoError } from 'mongodb';
 import { AppointmentsService } from './appointments.service';
 import { Appointment } from './entities/appointment.entity';
 import { createAppointment, createdAppointment, updateAppointment, updatedAppointment } from '../../test/data';
+import { EmptyLogger } from '../../test/interfaces';
 
 describe('AppointmentsService', () => {
   let service: AppointmentsService;
@@ -24,12 +25,11 @@ describe('AppointmentsService', () => {
             find: jest.fn(),
             findOne: jest.fn(),
             findById: jest.fn()
-              .mockReturnValueOnce( createdAppointment )
-              .mockReturnValueOnce( undefined )
           }
         }
       ],
     }).compile();
+    module.useLogger(EmptyLogger);
 
     service = module.get<AppointmentsService>( AppointmentsService );
     model = module.get<Model<Appointment>>( getModelToken( Appointment.name ) );
@@ -91,10 +91,14 @@ describe('AppointmentsService', () => {
 
   describe('findOne', () => {
     it('should return an appointment', async () => {
+      jest.spyOn(model, "findById").mockReturnValueOnce( createdAppointment as any );
+
       expect( await service.findOne("1") ).toEqual( createdAppointment );
     });
 
     it('should throw not found error if id does not exist', async () => {
+      jest.spyOn(model, "findById").mockResolvedValueOnce( undefined );
+
       try {
         await service.findOne("-1");
       } catch (error) {

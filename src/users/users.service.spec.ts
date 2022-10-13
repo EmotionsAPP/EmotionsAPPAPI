@@ -1,4 +1,4 @@
-import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 
@@ -10,6 +10,7 @@ import { usersArray } from '../../test/data';
 import { User } from './entities';
 import { UsersService } from './users.service';
 import { CreatePatientUserDto, CreatePsychologistUserDto } from './dto';
+import { EmptyLogger } from '../../test/interfaces';
 
 const duplicateError = new MongoError("");
 duplicateError.code = 11000;
@@ -52,6 +53,7 @@ describe('UsersService', () => {
         }
       ],
     }).compile();
+    module.useLogger(EmptyLogger);
 
     service = module.get<UsersService>( UsersService );
     model = module.get<Model<User>>( getModelToken( User.name ) );
@@ -358,7 +360,7 @@ describe('UsersService', () => {
       });
 
       try {
-        await service.updatePsychologist("1", updatePatient);
+        await service.updatePatient("1", updatePatient);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
       }
@@ -373,7 +375,7 @@ describe('UsersService', () => {
       jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
 
       try {
-        await service.updatePsychologist("1", updatePatient);
+        await service.updatePatient("1", updatePatient);
       } catch (error) {
         expect(error).toBeInstanceOf(ConflictException);
       }
@@ -388,7 +390,7 @@ describe('UsersService', () => {
       jest.spyOn(service, "findOne").mockReturnValueOnce(userDb);
 
       try {
-        await service.updatePsychologist("1", updatePatient);
+        await service.updatePatient("1", updatePatient);
       } catch (error) {
         expect(error).toBeInstanceOf( InternalServerErrorException );
       }

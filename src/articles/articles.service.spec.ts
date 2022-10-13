@@ -23,8 +23,6 @@ describe('ArticlesService', () => {
             create: jest.fn().mockReturnValue( createdArticle ),
             find: jest.fn().mockReturnValue([ createdArticle ]),
             findById: jest.fn()
-              .mockReturnValueOnce( createdArticle )
-              .mockReturnValueOnce( undefined ),
           }
         }
       ],
@@ -52,10 +50,14 @@ describe('ArticlesService', () => {
 
   describe('findOne', () => {
     it('should return article if id exists', async () => {
+      jest.spyOn(model, "findById").mockReturnValueOnce( createdArticle as any );
+
       expect( await service.findOne( "1" ) ).toEqual( createdArticle );
     });
 
     it('should throw not found error if id does not exist', async () => {
+      jest.spyOn(model, "findById").mockReturnValueOnce( undefined );
+
       try {
         await service.findOne("-1");
       } catch (error) {

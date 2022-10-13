@@ -55,10 +55,10 @@ describe('UserRoleGuard', () => {
   });
 
   it('should throw bad request exception if user is not found on request', () => {
-    jest.spyOn(reflector, "get").mockReturnValueOnce( emptyValidRoles );
+    jest.spyOn(reflector, "get").mockReturnValueOnce( validRoles );
 
     const context = createMock<ExecutionContext>();
-    context.switchToHttp().getRequest.mockReturnValue(undefined);
+    context.switchToHttp().getRequest.mockReturnValue({ user: undefined });
 
     try {
       guard.canActivate( context );
