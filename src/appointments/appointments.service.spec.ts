@@ -7,7 +7,14 @@ import { MongoError } from 'mongodb';
 
 import { AppointmentsService } from './appointments.service';
 import { Appointment } from './entities/appointment.entity';
-import { createAppointment, createdAppointment, updateAppointment, updatedAppointment } from '../../test/data';
+import {
+  appointmentsHistory,
+  expectedAppointmentsHistory,
+  createAppointment,
+  createdAppointment,
+  updateAppointment,
+  updatedAppointment
+} from '../../test/data';
 import { EmptyLogger } from '../../test/interfaces';
 
 describe('AppointmentsService', () => {
@@ -69,11 +76,11 @@ describe('AppointmentsService', () => {
     });
   });
 
-  describe('findAll', () => {
+  describe('find', () => {
     it('should return an array of appointments', async () => {
       jest.spyOn(model, "find").mockReturnValue([ createdAppointment ] as any);
       
-      expect(await service.findAll({
+      expect(await service.find({
         userId: "1", 
         date: new Date("2022-09-16") 
       })).toEqual([ createdAppointment ]);
@@ -82,10 +89,38 @@ describe('AppointmentsService', () => {
     it('should return an empty array if userId does not exist', async () => {
       jest.spyOn(model, "find").mockReturnValue([] as any);
       
-      expect(await service.findAll({
+      expect(await service.find({
         userId: "-1", 
         date: new Date("2022-09-16") 
       })).toEqual([]);
+    });
+  });
+
+  describe('getHistory', () => {
+    it('should return an array of appointments histories', async () => {
+      jest.spyOn(model, "find").mockReturnValue({
+        limit: () => ({
+          skip: () => ({
+            sort: jest.fn().mockReturnValue( appointmentsHistory )
+          })
+        })
+      } as any);
+
+      expect( await service.getHistory({ userId: "", limit: 5 }) )
+        .toEqual( expectedAppointmentsHistory );
+    });
+
+    it('should return an empty array if userId does not exist', async () => {
+      jest.spyOn(model, "find").mockReturnValue({
+        limit: () => ({
+          skip: () => ({ 
+            sort: jest.fn().mockReturnValue( [] )
+          })
+        })
+      } as any);
+
+      expect( await service.getHistory({ userId: "", limit: 5 }) )
+        .toEqual( [] );
     });
   });
 

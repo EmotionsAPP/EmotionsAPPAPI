@@ -10,8 +10,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as moment from 'moment';
 
-import { CreateAppointmentDto, FindAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { CreateAppointmentDto, FindAppointmentsDto, GetHistoryAppointmentsDto, UpdateAppointmentDto } from './dto';
 import { Appointment } from './entities/appointment.entity';
+import { AppointmentsHistory, AppointmentStatus } from './interfaces';
 
 @Injectable()
 export class AppointmentsService {
@@ -35,12 +36,30 @@ export class AppointmentsService {
     }
   }
 
-  async findAll( appointment: FindAppointmentsDto ) {
+  async find( appointment: FindAppointmentsDto ) {
     return await this.appointmentModel.find({
       $or: [{ psychologist: appointment.userId }, { patient: appointment.userId }],
       start: { $gte: moment.utc(appointment.date).startOf('day') },
       end: { $lte: moment.utc(appointment.date).endOf('day') }
     });
+  }
+
+  async getHistory( getHistoryAppointments: GetHistoryAppointmentsDto ) {
+
+    const { userId, limit = 0, offset = 0 } = getHistoryAppointments;
+
+    const appointments = await this.appointmentModel.find({
+      $or: [
+        { psychologist: userId }, 
+        { patient: userId }
+      ],
+      status: AppointmentStatus.Completed
+    })
+    .limit( limit )
+    .skip( offset )
+    .sort({ start: -1 });
+
+    return this.createAppointmentsHistory( appointments );
   }
 
   async findOne( id: string ) {
@@ -86,6 +105,26 @@ export class AppointmentsService {
 
     if ( collisions.length > 0 )
       throw new ConflictException("There is a conflict with the dates");
+  }
+
+  private async createAppointmentsHistory( appointments: Appointment[] ) {
+
+    const appointmentsHistory = [];
+
+    const dict = new Map<string, Appointment[]>();
+
+    appointments.forEach((appointment: Appointment) => {
+      let dateKey = moment( appointment.start ).format("YYYY-MM-DD");
+
+      if ( dict.has( dateKey ) )
+        dict.get( dateKey ).push( appointment );
+      else
+        dict.set(dateKey, [ appointment ]);
+    });
+
+    dict.forEach((value, key) => appointmentsHistory.push({ date: key, appointments: value }));
+
+    return appointmentsHistory;
   }
 
   private handleErrors( error: any ) {

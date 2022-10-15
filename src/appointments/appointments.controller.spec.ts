@@ -19,7 +19,7 @@ describe('AppointmentsController', () => {
             create: jest.fn()
               .mockImplementationOnce((create: CreateAppointmentDto) => createdAppointment)
               .mockImplementationOnce(() => { throw new ConflictException(); }),
-            findAll: jest.fn(),
+            find: jest.fn(),
             findOne: jest.fn(),
             update: jest.fn()
           }
@@ -49,24 +49,24 @@ describe('AppointmentsController', () => {
     });
   });
 
-  describe('findAll', () => {
+  describe('find', () => {
     it('should return an array of appointments', async () => {
-      jest.spyOn(service, "findAll").mockImplementationOnce(
+      jest.spyOn(service, "find").mockImplementationOnce(
         (findAll: FindAppointmentsDto) => [ createdAppointment ] as any
       );
 
-      expect(await controller.findAll({
+      expect(await controller.find({
         userId: "1", 
         date: new Date("2022-09-16") 
       })).toEqual([ createdAppointment ]);
     });
 
     it('should return an empty array if userId does not exist', async () => {
-      jest.spyOn(service, "findAll").mockImplementationOnce(
+      jest.spyOn(service, "find").mockImplementationOnce(
         (findAll: FindAppointmentsDto) => [] as any
       );
 
-      expect(await controller.findAll({
+      expect(await controller.find({
         userId: "-1", 
         date: new Date("2022-09-16") 
       })).toEqual([]);

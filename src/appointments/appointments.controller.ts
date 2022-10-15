@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { AppointmentsService } from './appointments.service';
 
-import { CreateAppointmentDto, FindAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { CreateAppointmentDto, FindAppointmentsDto, GetHistoryAppointmentsDto, UpdateAppointmentDto } from './dto';
 import { Appointment } from './entities/appointment.entity';
 
 @ApiTags('Appointments')
@@ -17,8 +17,13 @@ export class AppointmentsController {
   }
 
   @Get()
-  findAll(@Query() findAppointmentsDto: FindAppointmentsDto): Promise<Appointment[]> {
-    return this.appointmentsService.findAll( findAppointmentsDto );
+  find(@Query() findAppointmentsDto: FindAppointmentsDto): Promise<Appointment[]> {
+    return this.appointmentsService.find( findAppointmentsDto );
+  }
+
+  @Get("/history")
+  getHistory(@Query() getHistoryAppointments: GetHistoryAppointmentsDto) {
+    return this.appointmentsService.getHistory( getHistoryAppointments );
   }
 
   @Get(':id')
