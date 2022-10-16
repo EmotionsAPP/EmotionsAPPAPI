@@ -39,9 +39,11 @@ export class AppointmentsService {
   async find( appointment: FindAppointmentsDto ) {
     return await this.appointmentModel.find({
       $or: [{ psychologist: appointment.userId }, { patient: appointment.userId }],
-      start: { $gte: moment.utc(appointment.date).startOf('day') },
-      end: { $lte: moment.utc(appointment.date).endOf('day') }
-    });
+      start: { 
+        $gte: moment.utc(appointment.date).startOf('day'),
+        $lte: moment.utc(appointment.date).endOf('day')
+      }
+    }).sort({ start: 1 });
   }
 
   async getHistory( getHistoryAppointments: GetHistoryAppointmentsDto ) {
