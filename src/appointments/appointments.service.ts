@@ -43,7 +43,9 @@ export class AppointmentsService {
         $gte: moment.utc(appointment.date).startOf('day'),
         $lte: moment.utc(appointment.date).endOf('day')
       }
-    }).sort({ start: 1 });
+    }).sort({ start: 1 })
+      .populate("psychologist")
+      .populate("patient");
   }
 
   async getHistory( getHistoryAppointments: GetHistoryAppointmentsDto ) {
