@@ -6,6 +6,7 @@ import { AppointmentsController } from './appointments.controller';
 
 import { Appointment, AppointmentSchema } from './entities/appointment.entity';
 import { AuthModule } from '../auth/auth.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -16,9 +17,12 @@ import { AuthModule } from '../auth/auth.module';
       }
     ]),
 
+    UsersModule,
+
     AuthModule
   ],
   controllers: [ AppointmentsController ],
-  providers: [ AppointmentsService ]
+  providers: [ AppointmentsService ],
+  exports: [ MongooseModule ]
 })
 export class AppointmentsModule {}

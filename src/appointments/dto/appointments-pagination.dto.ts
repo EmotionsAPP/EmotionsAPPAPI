@@ -1,7 +1,8 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, IsString, Min } from "class-validator";
+import { IsEnum, IsInt, IsOptional, IsString, Min } from "class-validator";
+import { AppointmentStatus } from "../interfaces";
 
-export class GetHistoryAppointmentsDto {
+export class AppointmentsPaginationDto {
 
     @IsOptional()
     @IsInt()
@@ -17,4 +18,8 @@ export class GetHistoryAppointmentsDto {
 
     @IsString()
     userId: string;
+
+    @IsOptional()
+    @IsEnum( AppointmentStatus )
+    status?: AppointmentStatus;
 }

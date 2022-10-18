@@ -16,10 +16,12 @@ import {
   updatedAppointment
 } from '../../test/data';
 import { EmptyLogger } from '../../test/interfaces';
+import { User } from '../users/entities';
 
 describe('AppointmentsService', () => {
   let service: AppointmentsService;
   let model: Model<Appointment>;
+  let userModel: Model<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -33,6 +35,12 @@ describe('AppointmentsService', () => {
             findOne: jest.fn(),
             findById: jest.fn()
           }
+        },
+        {
+          provide: getModelToken( User.name ),
+          useValue: {
+            find: jest.fn()
+          }
         }
       ],
     }).compile();
@@ -40,6 +48,7 @@ describe('AppointmentsService', () => {
 
     service = module.get<AppointmentsService>( AppointmentsService );
     model = module.get<Model<Appointment>>( getModelToken( Appointment.name ) );
+    userModel = module.get<Model<User>>( getModelToken( User.name ) );
   });
 
   it('should be defined', () => {
@@ -78,7 +87,11 @@ describe('AppointmentsService', () => {
 
   describe('find', () => {
     it('should return an array of appointments', async () => {
-      jest.spyOn(model, "find").mockReturnValue([ createdAppointment ] as any);
+      jest.spyOn(model, "find").mockReturnValue({
+        sort: () => ({ populate: () => ({
+          populate: () => [ createdAppointment ]
+        })})
+      } as any);
       
       expect(await service.find({
         userId: "1", 
@@ -87,7 +100,11 @@ describe('AppointmentsService', () => {
     });
 
     it('should return an empty array if userId does not exist', async () => {
-      jest.spyOn(model, "find").mockReturnValue([] as any);
+      jest.spyOn(model, "find").mockReturnValue({
+        sort: () => ({ populate: () => ({
+          populate: () => []
+        })})
+      } as any);
       
       expect(await service.find({
         userId: "-1", 
@@ -122,6 +139,12 @@ describe('AppointmentsService', () => {
       expect( await service.getHistory({ userId: "", limit: 5 }) )
         .toEqual( [] );
     });
+  });
+
+  describe('getContactedUsers', () => {
+    it('should return array of users', async () => {});
+
+    it('should return empty array if user does not has appointments completed')
   });
 
   describe('findOne', () => {

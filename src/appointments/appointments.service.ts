@@ -10,9 +10,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as moment from 'moment';
 
-import { CreateAppointmentDto, FindAppointmentsDto, GetHistoryAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { CreateAppointmentDto, FindAppointmentsDto, AppointmentsPaginationDto, UpdateAppointmentDto } from './dto';
 import { Appointment } from './entities/appointment.entity';
-import { AppointmentsHistory, AppointmentStatus } from './interfaces';
+import { AppointmentStatus } from './interfaces';
+import { User } from '../users/entities';
 
 @Injectable()
 export class AppointmentsService {
@@ -21,7 +22,10 @@ export class AppointmentsService {
 
   constructor(
     @InjectModel( Appointment.name )
-    private readonly appointmentModel: Model<Appointment>
+    private readonly appointmentModel: Model<Appointment>,
+
+    @InjectModel( User.name )
+    private readonly userModel: Model<User>
   ) {}
 
   async create( createAppointmentDto: CreateAppointmentDto ) {
@@ -37,18 +41,24 @@ export class AppointmentsService {
   }
 
   async find( appointment: FindAppointmentsDto ) {
+
+    const { userId, date, excludeStatus = AppointmentStatus.Completed } = appointment; 
+
     return await this.appointmentModel.find({
-      $or: [{ psychologist: appointment.userId }, { patient: appointment.userId }],
+      $or: [{ psychologist: userId }, { patient: userId }],
       start: { 
-        $gte: moment.utc(appointment.date).startOf('day'),
-        $lte: moment.utc(appointment.date).endOf('day')
-      }
-    }).sort({ start: 1 })
+        $gte: moment.utc( date ).startOf('day'),
+        $lte: moment.utc( date ).endOf('day')
+      },
+      status: { $ne: excludeStatus },
+      isActive: { $eq: true }
+    })
+      .sort({ start: 1 })
       .populate("psychologist")
       .populate("patient");
   }
 
-  async getHistory( getHistoryAppointments: GetHistoryAppointmentsDto ) {
+  async getHistory( getHistoryAppointments: AppointmentsPaginationDto ) {
 
     const { userId, limit = 0, offset = 0 } = getHistoryAppointments;
 
@@ -59,11 +69,38 @@ export class AppointmentsService {
       ],
       status: AppointmentStatus.Completed
     })
-    .limit( limit )
-    .skip( offset )
-    .sort({ start: -1 });
+      .limit( limit )
+      .skip( offset )
+      .sort({ start: -1 });
 
     return this.createAppointmentsHistory( appointments );
+  }
+
+  async getContactedUsers( appointmentsPagination: AppointmentsPaginationDto ) {
+
+    const { userId, limit = 3, offset = 0, status = AppointmentStatus.Completed } = appointmentsPagination;
+
+    const contactedUsersIds: {_id: string}[] = await this.appointmentModel.aggregate([
+      { $match: {
+        $or: [{ psychologist: userId, status: status }, { patient: userId, status: status }] },
+      },
+      {
+        $group: { 
+          _id: {
+            $cond: { if: { $eq: [ "$psychologist", userId ] }, then: "$patient", else: "$psychologist" }
+          }
+        }
+      },
+      { $sort: { start: -1 } },
+      { $limit: limit },
+      { $skip: offset }
+    ]);
+
+    const contactedUsers = await this.userModel.find({
+      _id: { $in: contactedUsersIds.map(user => user._id) }
+    });
+
+    return contactedUsers;
   }
 
   async findOne( id: string ) {
@@ -104,7 +141,8 @@ export class AppointmentsService {
         { patient: appointment.patient } 
       ],
       start: { $lt: appointment.end },
-      end: { $gt: appointment.start }
+      end: { $gt: appointment.start },
+      isActive: { $eq: true }
     });
 
     if ( collisions.length > 0 )

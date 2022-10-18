@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { AppointmentsService } from './appointments.service';
 
-import { CreateAppointmentDto, FindAppointmentsDto, GetHistoryAppointmentsDto, UpdateAppointmentDto } from './dto';
+import { CreateAppointmentDto, FindAppointmentsDto, AppointmentsPaginationDto, UpdateAppointmentDto } from './dto';
 import { Appointment } from './entities/appointment.entity';
 
 @ApiTags('Appointments')
@@ -22,8 +22,13 @@ export class AppointmentsController {
   }
 
   @Get("/history")
-  getHistory(@Query() getHistoryAppointments: GetHistoryAppointmentsDto) {
+  getHistory(@Query() getHistoryAppointments: AppointmentsPaginationDto) {
     return this.appointmentsService.getHistory( getHistoryAppointments );
+  }
+
+  @Get("/contacted-users")
+  getContactedUsers(@Query() appointmentsPagination: AppointmentsPaginationDto) {
+    return this.appointmentsService.getContactedUsers( appointmentsPagination );
   }
 
   @Get(':id')
