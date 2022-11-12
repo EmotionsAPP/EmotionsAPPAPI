@@ -7,6 +7,9 @@ export class Psychologist extends Document {
   @Prop({ index: true })
   idCardNo: string;
 
+  @Prop({ default: false })
+  emergencyAvailable?: boolean;
+
   @Prop()
   title?: string;
 

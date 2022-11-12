@@ -82,7 +82,13 @@ export class UsersService {
     const user = await this.findOne( id );
     const { patient, ...updateUser } = updateUserDto;
 
-    const updatePatient = { ...user.patient, ...patient };
+    const patientDbData: any = {};
+    ({
+      information: patientDbData.information,
+      diagnostic: patientDbData.diagnostic,
+    } = user.patient);
+
+    const updatePatient = { ...patientDbData, ...patient };
 
     try {
       await user.updateOne( updateUser );
@@ -106,7 +112,18 @@ export class UsersService {
     const user = await this.findOne( id );
     const { psychologist, ...updateUser } = updateUserDto;
 
-    const updatePsychologist = { ...user.psychologist, ...psychologist };
+    const psychologistDbData: any = {};
+    ({
+      idCardNo: psychologistDbData.idCardNo,
+      emergencyAvailable: psychologistDbData.emergencyAvailable,
+      title: psychologistDbData.title,
+      firstWorkDate: psychologistDbData.firstWorkDate,
+      about: psychologistDbData.about,
+      goals: psychologistDbData.goals,
+      workPlaces: psychologistDbData.workPlaces,
+    } = user.psychologist);
+
+    const updatePsychologist = { ...psychologistDbData, ...psychologist };
 
     try {
       await user.updateOne( updateUser );

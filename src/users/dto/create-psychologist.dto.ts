@@ -1,4 +1,4 @@
-import { IsArray, IsDate, IsInt, IsString, Length, Min, ValidateNested } from 'class-validator';
+import { IsArray, IsBoolean, IsDate, IsInt, IsOptional, IsString, Length, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { CreateUserDto } from './create-user.dto';
@@ -10,6 +10,10 @@ export class CreatePsychologistDto {
   @IsString()
   @Length(11, 11)
   idCardNo: string;
+
+  @IsOptional()
+  @IsBoolean()
+  emergencyAvailable?: boolean;
 }
 
 export class CreatePsychologistUserDto extends CreateUserDto {
