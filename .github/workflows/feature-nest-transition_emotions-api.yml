@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
 
@@ -25,13 +25,15 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+
+      - name: Zip all files for upload between jobs
+        run: zip --symlinks -r nest.zip ./*
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: nest.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -53,4 +55,7 @@ jobs:
           app-name: 'emotions-api'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A92D67A328144156984EC373541FAA87 }}
-          package: .
+          package: nest.zip
+      
+      - name: Delete zip file
+        run: rm nest.zip
