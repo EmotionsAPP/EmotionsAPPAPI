@@ -12,6 +12,7 @@ import {
   UpdateUserDto
 } from './dto';
 import { User } from './entities';
+import { UsersQuantityByRole } from './interfaces';
 
 @Injectable()
 export class UsersService {
@@ -139,6 +140,75 @@ export class UsersService {
       return await this.findOne( id );
     } catch(error) {
       this.handleExceptions( error );
+    }
+  }
+
+  async getUsersQuantityByRole(): Promise<UsersQuantityByRole> {
+    const usersQuantityByRoleArr = await this.userModel.aggregate([{
+      '$facet': {
+        'patientsCount': [
+          {
+            '$match': {
+              'isActive': { '$eq': true }, 
+              'patient': { '$ne': null }
+            }
+          }, { '$count': 'patient' }
+        ], 
+        'psychologistCount': [
+          {
+            '$match': {
+              'isActive': { '$eq': true }, 
+              'psychologist': { '$ne': null }
+            }
+          }, { '$count': 'psychologist' }
+        ]
+      }
+    }]);
+
+    const usersQuantityByRole = usersQuantityByRoleArr[0];
+  
+    return {
+      patientsCount: usersQuantityByRole.patientsCount[0].patient,
+      psychologistsCount: usersQuantityByRole.psychologistCount[0].psychologist
+    };
+  }
+
+  async getEmergencyAvailablePsychologiesCount() {
+    const result = await this.userModel.aggregate([
+      { 
+        '$match': { 
+          'isActive': { '$eq': true }, 
+          'psychologist': { '$ne': null }
+        }
+      }, {
+        '$facet': {
+          'availablesCount': [
+            {
+              '$match': {
+                'psychologist.emergencyAvailable': { '$eq': true }
+              }
+            }, {
+              '$count': 'psychologist'
+            }
+          ], 
+          'noAvailablesCount': [
+            {
+              '$match': {
+                'psychologist.emergencyAvailable': { '$eq': false }
+              }
+            }, {
+              '$count': 'psychologist'
+            }
+          ]
+        }
+      }
+    ]);
+
+    const availableQuantities = result[0];
+
+    return {
+      availables: availableQuantities.availablesCount[0].psychologist,
+      noAvailables: availableQuantities.noAvailablesCount[0].psychologist
     }
   }
 

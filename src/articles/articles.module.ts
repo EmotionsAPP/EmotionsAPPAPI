@@ -19,6 +19,7 @@ import { AuthModule } from '../auth/auth.module';
     AuthModule
   ],
   controllers: [ ArticlesController ],
-  providers: [ ArticlesService ]
+  providers: [ ArticlesService ],
+  exports: [MongooseModule]
 })
 export class ArticlesModule {}

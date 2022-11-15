@@ -23,6 +23,6 @@ import { UsersModule } from '../users/users.module';
   ],
   controllers: [ AppointmentsController ],
   providers: [ AppointmentsService ],
-  exports: [ MongooseModule ]
+  exports: [ MongooseModule, AppointmentsService ]
 })
 export class AppointmentsModule {}

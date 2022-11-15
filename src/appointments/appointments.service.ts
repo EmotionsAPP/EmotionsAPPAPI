@@ -131,6 +131,28 @@ export class AppointmentsService {
     }
   }
 
+  async getAppointmentsQuantitiesPerDay() {
+    return await this.appointmentModel.aggregate([
+      {
+        '$group': {
+          '_id': {
+            '$dateToString': {
+              'format': '%Y-%m-%d', 
+              'date': '$start'
+            }
+          }, 
+          'count': {
+            '$sum': 1
+          }
+        }
+      }, {
+        '$sort': {
+          '_id': 1
+        }
+      }
+    ]);
+  }
+
   private async validateCollisions( 
     appointment: CreateAppointmentDto | UpdateAppointmentDto 
   ) {
