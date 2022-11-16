@@ -119,7 +119,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
                 emergencyAvailablesCount
               }
             },
-            component: AdminJS.bundle('../public/components/Dashboard.tsx'),
+            component: AdminJS.bundle('../public/components/Dashboard'),
           },
         },
         auth: {
