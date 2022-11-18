@@ -99,6 +99,11 @@
     "@types/express-session" "^1.17.0"
     reflect-metadata "^0.1.13"
 
+"@adminjs/passwords@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@adminjs/passwords/-/passwords-3.0.1.tgz#48ca32b11d59744a4a757b98f15daa8f105c8954"
+  integrity sha512-gmHUuA+tV1oRFlpGp30fXO5HZmI1kh2L9I0ZS9Lih1a1jMOhyLsv9slHLYtuYEd/QGdmUbK2Y0daDbUD5Qu2DA==
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.2.0.tgz"
