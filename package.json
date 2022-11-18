@@ -24,6 +24,7 @@
     "@adminjs/bundler": "^2.0.0",
     "@adminjs/design-system": "^3.1.0",
     "@adminjs/express": "^5.0.1",
+    "@adminjs/import-export": "^2.0.2",
     "@adminjs/mongoose": "^3.0.1",
     "@adminjs/nestjs": "^5.0.1",
     "@nestjs/common": "^9.0.0",
