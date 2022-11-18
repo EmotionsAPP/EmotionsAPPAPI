@@ -17,6 +17,8 @@ import { Appointment } from '../appointments/entities/appointment.entity';
 import { UsersService } from '../users/users.service';
 import { AppointmentsService } from '../appointments/appointments.service';
 
+import { appointmentOptions, articleOptions, userOptions } from './config';
+
 const authenticate = async (email: string, password: string) => {
   const USER = {
     email: process.env.ADMIN_EMAIL,
@@ -68,9 +70,9 @@ AdminJS.registerAdapter(AdminJSMongoose);
         adminJsOptions: {
           rootPath: '/admin',
           resources: [
-            { resource: userModel },
-            { resource: articleModel },
-            { resource: appointmentModel },
+            { resource: userModel, options: userOptions, },
+            { resource: articleModel, options: articleOptions, },
+            { resource: appointmentModel, options: appointmentOptions, },
           ],
           branding: {
             companyName: 'Emotions APP',
