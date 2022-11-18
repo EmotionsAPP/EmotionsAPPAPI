@@ -166,10 +166,13 @@ export class UsersService {
     }]);
 
     const usersQuantityByRole = usersQuantityByRoleArr[0];
+
+    const patientsCount = usersQuantityByRole.patientsCount[0]?.patient;
+    const psychologistsCount = usersQuantityByRole.psychologistCount[0]?.psychologist;
   
     return {
-      patientsCount: usersQuantityByRole.patientsCount[0].patient,
-      psychologistsCount: usersQuantityByRole.psychologistCount[0].psychologist
+      patientsCount: (!patientsCount) ? 0 : patientsCount,
+      psychologistsCount: (!psychologistsCount) ? 0 : psychologistsCount
     };
   }
 
@@ -206,9 +209,12 @@ export class UsersService {
 
     const availableQuantities = result[0];
 
+    const availables = availableQuantities.availablesCount[0]?.psychologist;
+    const noAvailables = availableQuantities.noAvailablesCount[0]?.psychologist;
+
     return {
-      availables: availableQuantities.availablesCount[0].psychologist,
-      noAvailables: availableQuantities.noAvailablesCount[0].psychologist
+      availables: (!availables) ? 0 : availables,
+      noAvailables: (!noAvailables) ? 0 : noAvailables
     }
   }
 

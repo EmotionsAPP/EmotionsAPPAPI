@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@adminjs/bundler": "^2.0.0",
     "@adminjs/design-system": "^3.1.0",
     "@adminjs/express": "^5.0.1",
     "@adminjs/mongoose": "^3.0.1",
