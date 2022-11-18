@@ -5,11 +5,6 @@ import { AppointmentsQuantityChart } from './AppointmentsQuantityChart';
 import { EmergencyAvailableChart } from './EmergencyAvailableChart';
 import { UsersQuantityChart } from './UsersQuantityChart';
 
-const LOADING_STATE = [{
-  name: "Patients Count",
-  value: 100
-}];
-
 function Dashboard(props: any) {
   const [usersQuantityByRole, setUsersQuantityByRole] = useState([0, 0]);
   const [appointmentsQuantity, setAppointmentsQuantity] = useState([]);
@@ -18,10 +13,12 @@ function Dashboard(props: any) {
   const api = new ApiClient();
 
   const fetchData = async () => {
-    const apiData = await api.getDashboard();
-    const usersQuantities = apiData.data.usersQuantityByRole;
-    const appointmentsQuantities = apiData.data.appointmentsQuantitiesPerDay;
-    const emergencyAvailablesCount = apiData.data.emergencyAvailablesCount;
+    const apiDashboard = await api.getDashboard();
+    const apiData = apiDashboard.data;
+    
+    const usersQuantities = apiData.usersQuantityByRole;
+    const appointmentsQuantities = apiData.appointmentsQuantitiesPerDay;
+    const emergencyAvailablesCount = apiData.emergencyAvailablesCount;
 
     setUsersQuantityByRole([usersQuantities.psychologistsCount, usersQuantities.patientsCount]);
     setAppointmentsQuantity(appointmentsQuantities);
@@ -38,7 +35,7 @@ function Dashboard(props: any) {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
             fill="#E6896B"
-            fill-opacity="1"
+            fillOpacity="1"
             d="M0,160L48,149.3C96,139,192,117,288,133.3C384,149,480,203,576,192C672,181,768,107,864,90.7C960,75,1056,117,1152,149.3C1248,181,1344,203,1392,213.3L1440,224L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
           ></path>
         </svg>

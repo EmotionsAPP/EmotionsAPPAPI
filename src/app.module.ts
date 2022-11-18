@@ -20,6 +20,7 @@ import { Appointment } from './appointments/entities/appointment.entity';
 import { Model } from 'mongoose';
 import { UsersService } from './users/users.service';
 import { AppointmentsService } from './appointments/appointments.service';
+import React from 'react';
 
 const authenticate = async (email: string, password: string) => {
   const USER = {
