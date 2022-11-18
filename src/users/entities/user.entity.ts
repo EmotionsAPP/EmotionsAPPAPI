@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 import { ValidRoles } from '../../auth/interfaces';
 import { Patient, Psychologist } from '.';
 

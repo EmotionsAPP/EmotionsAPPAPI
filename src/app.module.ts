@@ -20,6 +20,7 @@ import { Appointment } from './appointments/entities/appointment.entity';
 import { Model } from 'mongoose';
 import { UsersService } from './users/users.service';
 import { AppointmentsService } from './appointments/appointments.service';
+import { NotesModule } from './notes/notes.module';
 import React from 'react';
 
 const authenticate = async (email: string, password: string) => {
@@ -57,6 +58,8 @@ AdminJS.registerAdapter(AdminJSMongoose);
     ArticlesModule,
 
     CallingsModule,
+
+    NotesModule,
 
     AdminModule.createAdminAsync({
       imports: [

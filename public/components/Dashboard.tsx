@@ -15,6 +15,8 @@ function Dashboard(props: any) {
   const fetchData = async () => {
     const apiDashboard = await api.getDashboard();
     const apiData = apiDashboard.data;
+	
+	console.log({ apiData });
     
     const usersQuantities = apiData.usersQuantityByRole;
     const appointmentsQuantities = apiData.appointmentsQuantitiesPerDay;
