@@ -7,13 +7,27 @@ import { UsersController } from './users.controller';
 
 import { User } from './entities';
 import { UserSchema } from './entities/user.entity';
+import { ValidRoles } from '../auth/interfaces';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
+    MongooseModule.forFeatureAsync([
       {
         name: User.name,
-        schema: UserSchema,
+        useFactory: () => {
+          const schema = UserSchema;
+          
+          schema.pre<User>('save', function (next: Function) {
+            if (!this.psychologist) 
+              this.role = ValidRoles.Patient;
+            else 
+              this.role = ValidRoles.Psychologist;
+
+            next();
+          });
+
+          return schema;
+        }
       },
     ]),
 

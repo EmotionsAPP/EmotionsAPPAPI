@@ -1,11 +1,14 @@
 import { Type } from 'class-transformer';
 import {
   IsEmail,
+  IsEnum,
+  IsOptional,
   IsString,
   Length,
   Matches,
   MaxLength,
 } from 'class-validator';
+import { ValidRoles } from '../../auth/interfaces';
 
 export class CreateUserDto {
 
@@ -28,4 +31,8 @@ export class CreateUserDto {
       'The Password must have at least one Uppercase, Lowercase, Special Character and Number',
   })
   password: string;
+
+  @IsOptional()
+  @IsEnum(ValidRoles)
+  role?: ValidRoles;
 }

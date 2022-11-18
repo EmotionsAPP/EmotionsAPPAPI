@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { ValidRoles } from '../../auth/interfaces';
 import { Patient, Psychologist } from '.';
 
 @Schema({ timestamps: true })
@@ -25,6 +26,9 @@ export class User extends Document {
 
   @Prop()
   birthDate?: Date;
+
+  @Prop()
+  role: ValidRoles;
 
   @Prop({ default: true })
   isActive: boolean;
