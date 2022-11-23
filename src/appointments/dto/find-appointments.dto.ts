@@ -13,6 +13,6 @@ export class FindAppointmentsDto {
 
     @IsOptional()
     @IsEnum( AppointmentStatus )
-    excludeStatus: AppointmentStatus;
+    excludeStatus?: AppointmentStatus;
 }
 
