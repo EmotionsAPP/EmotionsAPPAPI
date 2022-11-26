@@ -71,7 +71,9 @@ export class AppointmentsService {
     })
       .limit( limit )
       .skip( offset )
-      .sort({ start: -1 });
+      .sort({ start: -1 })
+      .populate("psychologist")
+      .populate("patient");
 
     return this.createAppointmentsHistory( appointments );
   }
