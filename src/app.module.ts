@@ -12,6 +12,7 @@ import { ArticlesModule } from './articles/articles.module';
 import { CallingsModule } from './callings/callings.module';
 import { NotesModule } from './notes/notes.module';
 import { AdminModule } from './admin/admin.module';
+import { CitiesModule } from './cities/cities.module';
 
 @Module({
   imports: [
@@ -39,6 +40,8 @@ import { AdminModule } from './admin/admin.module';
     NotesModule,
 
     AdminModule,
+
+    CitiesModule,
   ],
   providers: [
     {

@@ -15,6 +15,25 @@ export const userOptions: ResourceOptions = {
         { value: 'Psychologist', label: 'Psychologist' },
         { value: 'Patient', label: 'Patient' },
       ]
+    },
+    "city": {
+      isVisible: {
+        show: true,
+        list: true,
+        edit: false,
+        filter: true
+      }
+    },
+    "profileImage": {
+      isVisible: false
+    },
+    "gender": {
+      availableValues: [
+        { value: 'male', label: 'Male' }, 
+        { value: 'female', label: 'Female' },
+      ]
     }
   }
 }
+
+

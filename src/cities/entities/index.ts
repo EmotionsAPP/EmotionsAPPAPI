@@ -1,0 +1,1 @@
+export { City, CitySchema } from './city.entity';

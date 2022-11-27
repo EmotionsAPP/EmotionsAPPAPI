@@ -10,21 +10,17 @@ import * as AdminJSMongoose from '@adminjs/mongoose';
 import { UsersModule } from '../users/users.module';
 import { ArticlesModule } from '../articles/articles.module';
 import { AppointmentsModule } from '../appointments/appointments.module';
+import { CitiesModule } from '../cities/cities.module';
 
 import { User } from '../users/entities';
 import { Article } from '../articles/entities/article.entity';
 import { Appointment } from '../appointments/entities/appointment.entity';
+import { City } from '../cities/entities';
 import { UsersService } from '../users/users.service';
 import { AppointmentsService } from '../appointments/appointments.service';
 
-import {
-  appointmentFeatures,
-  appointmentOptions,
-  articleFeatures,
-  articleOptions,
-  userFeatures,
-  userOptions
-} from './config';
+import { brandingOptions, localeOptions } from './config';
+import { bundleDashboard, getAdminResources } from './helpers';
 
 const authenticate = async (email: string, password: string) => {
   const USER = {
@@ -51,85 +47,55 @@ AdminJS.registerAdapter(AdminJSMongoose);
 
     AppointmentsModule,
 
+    CitiesModule,
+
     AdminJSModule.createAdminAsync({
       imports: [
         ConfigModule,
         UsersModule,
         ArticlesModule,
         AppointmentsModule,
+        CitiesModule,
       ],
       inject: [
         getModelToken( User.name ),
         getModelToken( Article.name ),
         getModelToken( Appointment.name ),
+        getModelToken( City.name ),
         UsersService,
         AppointmentsService,
         ConfigService
       ],
-      useFactory: (
+      useFactory: async (
         userModel: Model<User>,
         articleModel: Model<Article>,
         appointmentModel: Model<Appointment>,
+        cityModel: Model<City>,
         usersService: UsersService,
         appointmentsService: AppointmentsService,
         configService: ConfigService
-      ) => ({
-        adminJsOptions: {
-          rootPath: '/admin',
-          resources: [
-            { resource: userModel, options: userOptions, features: userFeatures, },
-            { resource: articleModel, options: articleOptions, features: articleFeatures, },
-            { resource: appointmentModel, options: appointmentOptions, features: appointmentFeatures, },
-          ],
-          branding: {
-            companyName: 'Emotions APP',
-            softwareBrothers: false,
-            withMadeWithLove: false,
-            logo: 'https://estintecedu-my.sharepoint.com/personal/1096192_est_intec_edu_do/Documents/Emotions%20APP%20-%20Documentaci%C3%B3n/Project%20Documents/Logo%20-%20Large.png',
-            favicon: 'https://estintecedu-my.sharepoint.com/personal/1096192_est_intec_edu_do/Documents/Emotions%20APP%20-%20Documentaci%C3%B3n/Project%20Documents/emotions_icon.png',
-            theme: {
-              colors: {
-                primary100: "rgba(219, 101, 81, 0.99)",
-                primary60: "#ffffff",
-                primary20: "#E6896B",
-                hoverBg: "#E6896B"
-              }
-            },
+      ) => {
+        
+        return {
+          adminJsOptions: {
+            rootPath: '/admin',
+            resources: getAdminResources(userModel, articleModel, appointmentModel, cityModel),
+            branding: brandingOptions,
+            locale: localeOptions,
+            dashboard: bundleDashboard(usersService, appointmentsService),
           },
-          locale: {
-            language: "es",
-            translations: {
-              messages: {
-                loginWelcome: 'Administration Site for Emotions APP.'
-              },
-            },
+          auth: {
+            authenticate,
+            cookieName: 'adminjs',
+            cookiePassword: configService.get('ADMIN_COOKIE_PASSWORD'),
           },
-          dashboard: {
-            handler: async () => {
-              const usersQuantityByRole = await usersService.getUsersQuantityByRole();
-              const appointmentsQuantitiesPerDay = await appointmentsService.getAppointmentsQuantitiesPerDay();
-              const emergencyAvailablesCount = await usersService.getEmergencyAvailablePsychologiesCount();
-  
-              return {
-                usersQuantityByRole,
-                appointmentsQuantitiesPerDay,
-                emergencyAvailablesCount
-              }
-            },
-            component: AdminJS.bundle('./components/Dashboard'),
+          sessionOptions: {
+            resave: true,
+            saveUninitialized: true,
+            secret: configService.get('ADMIN_SESSION_SECRET'),
           },
-        },
-        auth: {
-          authenticate,
-          cookieName: 'adminjs',
-          cookiePassword: configService.get('ADMIN_COOKIE_PASSWORD'),
-        },
-        sessionOptions: {
-          resave: true,
-          saveUninitialized: true,
-          secret: configService.get('ADMIN_SESSION_SECRET'),
-        },
-      })
+        }
+      }
     }),
   ],
   exports: [ AdminJSModule ]

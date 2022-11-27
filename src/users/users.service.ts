@@ -52,12 +52,18 @@ export class UsersService {
     return this.userModel.find({ 
       psychologist: { $ne: null }, 
       isActive: { $ne: false } 
-    }).select('-__v');
+    })
+      .select('-__v')
+      .populate('psychologist')
+      .populate('city');
   }
 
   async findOne( id: string ): Promise<User> {
 
-    const user = await this.userModel.findOne({ _id: id, isActive: { $ne: false } });
+    const user = await this.userModel.findOne({ _id: id, isActive: { $ne: false } })
+      .populate('psychologist')
+      .populate('patient')
+      .populate('city');
 
     if ( !user )
       throw new NotFoundException(`User with id ${ id } not found`);
