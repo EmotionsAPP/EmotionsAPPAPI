@@ -24,6 +24,9 @@ export class Psychologist extends Document {
 
   @Prop()
   workPlaces?: WorkPlace[];
+
+  @Prop()
+  connectionId?: string;
 }
 
 export const PsychologistSchema = SchemaFactory.createForClass(Psychologist);

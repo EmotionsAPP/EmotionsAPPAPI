@@ -14,6 +14,10 @@ export class CreatePsychologistDto {
   @IsOptional()
   @IsBoolean()
   emergencyAvailable?: boolean;
+
+  @IsOptional()
+  @IsString()
+  connectionId?: string;
 }
 
 export class CreatePsychologistUserDto extends CreateUserDto {

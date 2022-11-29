@@ -25,7 +25,8 @@ export class ArticlesService {
 
     if ( psychologistId ) query.psychologist = { $eq: psychologistId };
 
-    return await this.articleModel.find( query );
+    return await this.articleModel.find( query )
+      .populate('psychologist');
   }
 
   async findOne( id: string ) {
