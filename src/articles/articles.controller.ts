@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ArticlesService } from './articles.service';
-import { CreateArticleDto, UpdateArticleDto } from './dto';
+import { CreateArticleDto, FindArticlesDto, UpdateArticleDto } from './dto';
 import { Article } from './entities/article.entity';
 
 @ApiTags('Articles')
@@ -15,8 +15,8 @@ export class ArticlesController {
   }
 
   @Get()
-  findAll(): Promise<Article[]> {
-    return this.articlesService.findAll();
+  findAll(@Query() findArticlesDto: FindArticlesDto): Promise<Article[]> {
+    return this.articlesService.findAll( findArticlesDto );
   }
 
   @Get(':id')

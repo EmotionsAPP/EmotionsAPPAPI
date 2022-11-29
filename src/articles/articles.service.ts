@@ -1,9 +1,9 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Model } from 'mongoose';
 
-import { CreateArticleDto, UpdateArticleDto } from './dto';
+import { CreateArticleDto, FindArticlesDto, UpdateArticleDto } from './dto';
 import { Article } from './entities/article.entity';
 
 @Injectable()
@@ -18,8 +18,14 @@ export class ArticlesService {
     return await this.articleModel.create( createArticleDto );
   }
 
-  async findAll() {
-    return await this.articleModel.find({});
+  async findAll( findArticlesDto: FindArticlesDto ) {
+    const { psychologistId } = findArticlesDto;
+
+    let query: any = { isActive: { $ne: false } };
+
+    if ( psychologistId ) query.psychologist = { $eq: psychologistId };
+
+    return await this.articleModel.find( query );
   }
 
   async findOne( id: string ) {
