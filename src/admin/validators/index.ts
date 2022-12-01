@@ -1,0 +1,1 @@
+export { isArticle, validateArticle } from "./isArticle.validator";
