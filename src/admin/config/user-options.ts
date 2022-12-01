@@ -7,16 +7,26 @@ export const userOptions: ResourceOptions = {
   },
 
   properties: {
-    "password": {
-      isVisible: false
+    firstName: {
+      isRequired: true,
     },
-    "role": {
+    lastName: {
+      isRequired: true,
+    },
+    email: {
+      isRequired: true,
+    },
+    password: {
+      isRequired: true,
+      isVisible: false,
+    },
+    role: {
       availableValues: [
         { value: 'Psychologist', label: 'Psychologist' },
         { value: 'Patient', label: 'Patient' },
       ]
     },
-    "city": {
+    city: {
       isVisible: {
         show: true,
         list: true,
@@ -24,10 +34,10 @@ export const userOptions: ResourceOptions = {
         filter: true
       }
     },
-    "profileImage": {
+    profileImage: {
       isVisible: false
     },
-    "gender": {
+    gender: {
       availableValues: [
         { value: 'male', label: 'Male' }, 
         { value: 'female', label: 'Female' },

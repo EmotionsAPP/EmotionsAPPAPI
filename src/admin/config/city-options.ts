@@ -7,6 +7,9 @@ export const cityOptions: ResourceOptions = {
   },
 
   properties: {
+    name: {
+      isRequired: true,
+    },
     createdAt: {
       isVisible: {
         show: true,

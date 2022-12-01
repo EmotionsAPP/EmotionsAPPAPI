@@ -6,6 +6,9 @@ export class City extends Document {
 
   @Prop({ unique: true, index: true })
   name: string;
+
+  @Prop({ default: true })
+  isActive: boolean;
 };
 
 export const CitySchema = SchemaFactory.createForClass(City);

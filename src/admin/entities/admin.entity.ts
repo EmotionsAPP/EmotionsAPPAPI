@@ -10,13 +10,10 @@ export class Admin extends Document {
   password: string;
 
   @Prop()
-  firstName: string;
+  firstName?: string;
 
   @Prop()
-  lastName: string;
-
-  @Prop()
-  gender: string;
+  lastName?: string;
 }
 
 export const AdminSchema = SchemaFactory.createForClass( Admin );

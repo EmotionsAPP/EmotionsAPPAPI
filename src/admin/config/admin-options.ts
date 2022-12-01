@@ -13,14 +13,12 @@ export const adminOptions: ResourceOptions = {
   },
 
   properties: {
-    password: {
-      isVisible: false
+    email: {
+      isRequired: true,
     },
-    gender: {
-      availableValues: [
-        { value: 'male', label: 'Male' }, 
-        { value: 'female', label: 'Female' },
-      ]
+    password: {
+      isVisible: false,
+      isRequired: true,
     },
     createdAt: {
       isVisible: {

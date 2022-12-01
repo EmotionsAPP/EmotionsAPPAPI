@@ -7,7 +7,23 @@ export const appointmentOptions: ResourceOptions = {
   },
 
   properties: {
+    description: {
+      isRequired: true,
+    },
+    start: {
+      isRequired: true,
+    },
+    end: {
+      isRequired: true,
+    },
+    psychologist: {
+      isRequired: true,
+    },
+    patient: {
+      isRequired: true,
+    },
     status: {
+      isRequired: true,
       availableValues: [
         { value: "Scheduled", label: "Scheduled" },
         { value: "Started", label: "Started" },
