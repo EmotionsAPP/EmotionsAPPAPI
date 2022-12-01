@@ -11,27 +11,19 @@ import { UsersModule } from '../users/users.module';
 import { ArticlesModule } from '../articles/articles.module';
 import { AppointmentsModule } from '../appointments/appointments.module';
 import { CitiesModule } from '../cities/cities.module';
+import { LogsModule } from '../logs/logs.module';
 
 import { User } from '../users/entities';
 import { Article } from '../articles/entities/article.entity';
 import { Appointment } from '../appointments/entities/appointment.entity';
 import { City } from '../cities/entities';
+import { Log } from '../logs/entities/log.entity';
 import { UsersService } from '../users/users.service';
 import { AppointmentsService } from '../appointments/appointments.service';
 
+import { Admin, AdminSchema } from './entities';
 import { brandingOptions, localeOptions } from './config';
-import { bundleDashboard, getAdminResources } from './helpers';
-
-const authenticate = async (email: string, password: string) => {
-  const USER = {
-    email: process.env.ADMIN_EMAIL,
-    password: process.env.ADMIN_PASSWORD
-  }
-
-  if (email === USER.email && password === USER.password) 
-    return Promise.resolve(USER);
-  return null;
-}
+import { authenticateWrapper, bundleDashboard, getAdminResources } from './helpers';
 
 AdminJS.registerAdapter(AdminJSMongoose);
 
@@ -39,7 +31,12 @@ AdminJS.registerAdapter(AdminJSMongoose);
   imports: [
     ConfigModule,
 
-    MongooseModule,
+    MongooseModule.forFeature([
+      {
+        name: Admin.name,
+        schema: AdminSchema
+      }
+    ]),
 
     UsersModule,
 
@@ -56,21 +53,32 @@ AdminJS.registerAdapter(AdminJSMongoose);
         ArticlesModule,
         AppointmentsModule,
         CitiesModule,
+        LogsModule,
+        MongooseModule.forFeature([
+          {
+            name: Admin.name,
+            schema: AdminSchema
+          }
+        ]),
       ],
       inject: [
         getModelToken( User.name ),
         getModelToken( Article.name ),
         getModelToken( Appointment.name ),
         getModelToken( City.name ),
+        getModelToken( Admin.name ),
+        getModelToken( Log.name ),
         UsersService,
         AppointmentsService,
-        ConfigService
+        ConfigService,
       ],
       useFactory: async (
         userModel: Model<User>,
         articleModel: Model<Article>,
         appointmentModel: Model<Appointment>,
         cityModel: Model<City>,
+        adminModel: Model<Admin>,
+        logModel: Model<Log>,
         usersService: UsersService,
         appointmentsService: AppointmentsService,
         configService: ConfigService
@@ -79,13 +87,13 @@ AdminJS.registerAdapter(AdminJSMongoose);
         return {
           adminJsOptions: {
             rootPath: '/admin',
-            resources: getAdminResources(userModel, articleModel, appointmentModel, cityModel),
+            resources: getAdminResources(userModel, articleModel, appointmentModel, cityModel, adminModel, logModel),
             branding: brandingOptions,
             locale: localeOptions,
             dashboard: bundleDashboard(usersService, appointmentsService),
           },
           auth: {
-            authenticate,
+            authenticate: authenticateWrapper(adminModel),
             cookieName: 'adminjs',
             cookiePassword: configService.get('ADMIN_COOKIE_PASSWORD'),
           },

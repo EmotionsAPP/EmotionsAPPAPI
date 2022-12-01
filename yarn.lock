@@ -73,6 +73,13 @@
     xml "^1.0.1"
     xml2js "^0.4.23"
 
+"@adminjs/logger@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@adminjs/logger/-/logger-4.0.1.tgz#b2e50509d30281b6453acde3a88b0ccedd974516"
+  integrity sha512-6mEf1+ot/MUMZwfjq/5enTBH4FztawN6KKve5PjpJI5Jav3DmLwJlgbAMTlPqs4OITF608G3OjJJa1ku2votww==
+  dependencies:
+    lodash "^4.17.20"
+
 "@adminjs/mongoose@^2.0.0":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@adminjs/mongoose/-/mongoose-2.0.4.tgz#3e5e14011fa56a39c452f399b789837f1b56737d"

@@ -25,6 +25,7 @@
     "@adminjs/design-system": "^3.1.0",
     "@adminjs/express": "^5.0.1",
     "@adminjs/import-export": "^2.0.2",
+    "@adminjs/logger": "^4.0.1",
     "@adminjs/mongoose": "^3.0.1",
     "@adminjs/nestjs": "^5.0.1",
     "@adminjs/passwords": "^3.0.1",

@@ -3,7 +3,11 @@ import Component0 from '../node_modules/@adminjs/import-export/src/components/Ex
 AdminJS.UserComponents.Component0 = Component0
 import Component1 from '../node_modules/@adminjs/import-export/src/components/ImportComponent'
 AdminJS.UserComponents.Component1 = Component1
-import Component2 from '../node_modules/@adminjs/passwords/components/edit'
+import Component2 from '../node_modules/@adminjs/logger/src/components/RecordDifference'
 AdminJS.UserComponents.Component2 = Component2
-import Component3 from '../src/admin/components/Dashboard'
+import Component3 from '../node_modules/@adminjs/logger/src/components/RecordLink'
 AdminJS.UserComponents.Component3 = Component3
+import Component4 from '../node_modules/@adminjs/passwords/components/edit'
+AdminJS.UserComponents.Component4 = Component4
+import Component5 from '../src/admin/components/Dashboard'
+AdminJS.UserComponents.Component5 = Component5

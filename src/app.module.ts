@@ -13,6 +13,7 @@ import { CallingsModule } from './callings/callings.module';
 import { NotesModule } from './notes/notes.module';
 import { AdminModule } from './admin/admin.module';
 import { CitiesModule } from './cities/cities.module';
+import { LogsModule } from './logs/logs.module';
 
 @Module({
   imports: [
@@ -42,6 +43,8 @@ import { CitiesModule } from './cities/cities.module';
     AdminModule,
 
     CitiesModule,
+
+    LogsModule,
   ],
   providers: [
     {
