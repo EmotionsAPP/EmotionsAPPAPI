@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { SkipThrottle } from '@nestjs/throttler';
 
 import { AppointmentsService } from './appointments.service';
 
@@ -16,6 +17,7 @@ export class AppointmentsController {
     return this.appointmentsService.create( createAppointmentDto );
   }
 
+  @SkipThrottle()
   @Get()
   find(@Query() findAppointmentsDto: FindAppointmentsDto): Promise<Appointment[]> {
     return this.appointmentsService.find( findAppointmentsDto );
