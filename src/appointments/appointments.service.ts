@@ -12,7 +12,7 @@ import * as moment from 'moment';
 
 import { CreateAppointmentDto, FindAppointmentsDto, AppointmentsPaginationDto, UpdateAppointmentDto } from './dto';
 import { Appointment } from './entities/appointment.entity';
-import { AppointmentStatus, FindAppointmentStatus } from './interfaces';
+import { AppointmentStatus, ExcludeAppointmentStatus } from './interfaces';
 import { User } from '../users/entities';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class AppointmentsService {
 
   async find( appointment: FindAppointmentsDto ) {
 
-    const { userId, date, excludeStatus = FindAppointmentStatus.Completed } = appointment; 
+    const { userId, date, excludeStatus = ExcludeAppointmentStatus.Completed } = appointment; 
 
     const query = {
       $or: [{ psychologist: userId }, { patient: userId }],
@@ -54,7 +54,7 @@ export class AppointmentsService {
       isActive: { $eq: true }
     }
 
-    if (excludeStatus !== FindAppointmentStatus.None)
+    if (excludeStatus !== ExcludeAppointmentStatus.None)
       query.status = { $ne: excludeStatus };
 
     return await this.appointmentModel.find(query)

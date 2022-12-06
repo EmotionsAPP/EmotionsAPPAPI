@@ -1,5 +1,5 @@
 
-export enum FindAppointmentStatus {
+export enum ExcludeAppointmentStatus {
   Scheduled = "Scheduled",
   Started = "Started",
   Completed = "Completed",
