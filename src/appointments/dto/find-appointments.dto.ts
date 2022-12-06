@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsDate, IsEnum, IsMongoId, IsOptional } from "class-validator";
-import { AppointmentStatus } from "../interfaces";
+import { FindAppointmentStatus } from "../interfaces";
 
 export class FindAppointmentsDto {
 
@@ -12,7 +12,7 @@ export class FindAppointmentsDto {
     date: Date;
 
     @IsOptional()
-    @IsEnum( AppointmentStatus )
-    excludeStatus?: AppointmentStatus;
+    @IsEnum( FindAppointmentStatus )
+    excludeStatus?: FindAppointmentStatus;
 }
 
