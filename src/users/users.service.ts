@@ -1,7 +1,9 @@
 import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { InjectBrowser } from 'nest-puppeteer';
 
 import { Model } from 'mongoose';
+import { Browser } from 'puppeteer';
 import { hashPassword } from '../auth/security';
 
 import {
@@ -12,7 +14,8 @@ import {
   UpdateUserDto
 } from './dto';
 import { User } from './entities';
-import { UsersQuantityByRole } from './interfaces';
+import { MSPData, UsersQuantityByRole } from './interfaces';
+import { formatIdCardNo, isPsychologist } from './helpers';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +25,9 @@ export class UsersService {
   constructor(
     @InjectModel( User.name )
     private readonly userModel: Model<User>,
+
+    @InjectBrowser() 
+    private readonly browser: Browser
   ) {}
 
   async create( createUserDto: CreateUserDto ): Promise<User | undefined> {
@@ -40,9 +46,13 @@ export class UsersService {
 
     const user = await this.userModel.findOne({ "psychologist.idCardNo": psychologist.psychologist.idCardNo });
 
-    if (user) {
+    if (user)
       throw new ConflictException("Cedula already exists");
-    }
+
+    const { title } = await this.getPsychologistInfo(psychologist.psychologist.idCardNo);
+
+    if (!isPsychologist(title))
+      throw new NotFoundException("Cedula not found in registry");
 
     return await this.create( psychologist );
   }
@@ -222,6 +232,46 @@ export class UsersService {
       availables: (!availables) ? 0 : availables,
       noAvailables: (!noAvailables) ? 0 : noAvailables
     }
+  }
+
+  private async getPsychologistInfo(idCardNo: string): Promise<MSPData> {
+    const page = await this.browser.newPage();
+    await page.goto("https://intranet.msp.gob.do/intranet/juridica/publica/Consulta_Registro_Exequatur.aspx");
+
+    await page.select("#DropDownListCriterio", "1");
+    await page.waitForSelector("#TextBoxCedula");
+    await page.type("#TextBoxCedula", idCardNo);
+
+    try {
+	    await page.click("#ButtonBuscar1");
+	    await page.waitForSelector("#GridView1", { timeout: 10000 });
+    } catch (error) {
+      await page.close();
+
+      if (idCardNo.indexOf("-") === -1) {
+        let idCardNoFormatted = formatIdCardNo( idCardNo );
+        return this.getPsychologistInfo( idCardNoFormatted );
+      }
+
+      throw new NotFoundException("Cedula not found in registry");
+    }
+
+    const info: MSPData[] = await page.$eval("#GridView1", el => {
+      const table = [...el.querySelectorAll('tr')].map(row => {
+        const columns = [...row.querySelectorAll('td')].map(x => x.innerHTML);
+    
+        return ({
+          name: columns[2],
+          cedula: columns[3],
+          title: columns[4]
+        });
+      });
+    
+      return table;
+    });
+
+    await page.close();
+    return info[1];
   }
 
   private handleExceptions(error: any) {
