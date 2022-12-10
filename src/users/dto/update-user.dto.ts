@@ -10,7 +10,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     profileImage?: string;
   
     @IsOptional()
-    @IsIn(['male', 'female'])
+    @IsIn(['M', 'F', 'O'])
     gender?: string;
   
     @IsOptional()

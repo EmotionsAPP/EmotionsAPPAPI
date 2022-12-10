@@ -39,8 +39,9 @@ export const userOptions: ResourceOptions = {
     },
     gender: {
       availableValues: [
-        { value: 'male', label: 'Male' }, 
-        { value: 'female', label: 'Female' },
+        { value: 'M', label: 'Male' }, 
+        { value: 'F', label: 'Female' },
+        { value: 'O', label: 'Other' }
       ]
     }
   }
