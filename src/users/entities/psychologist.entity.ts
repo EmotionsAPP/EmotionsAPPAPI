@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { WorkPlace } from '../interfaces';
+import { Goal, WorkPlace } from '../interfaces';
 
 @Schema()
 export class Psychologist extends Document {
@@ -20,7 +20,7 @@ export class Psychologist extends Document {
   about?: string;
 
   @Prop()
-  goals?: string[];
+  goals?: Goal[];
 
   @Prop()
   workPlaces?: WorkPlace[];

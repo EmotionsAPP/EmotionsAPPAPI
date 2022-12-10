@@ -1,7 +1,8 @@
 import { PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsDate, IsOptional, IsString, Length, ValidateNested } from 'class-validator';
+import { IsArray, IsDate, IsOptional, Length, ValidateNested } from 'class-validator';
 import { CreatePsychologistDto, UpdateUserDto } from '.';
+import { Goal, WorkPlace } from '../interfaces';
 
 export class UpdatePsychologistDto extends PartialType(CreatePsychologistDto) {
 
@@ -20,11 +21,15 @@ export class UpdatePsychologistDto extends PartialType(CreatePsychologistDto) {
 
     @IsOptional()
     @IsArray()
-    @IsString({ each: true })
-    goals?: string[];
+    @Type(() => Goal)
+    @ValidateNested()
+    goals?: Goal[];
 
     @IsOptional()
-    workPlaces?: any[];
+    @IsArray()
+    @Type(() => WorkPlace)
+    @ValidateNested()
+    workPlaces?: WorkPlace[];
 }
 
 export class UpdatePsychologistUserDto extends UpdateUserDto {
