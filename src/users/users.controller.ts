@@ -25,6 +25,11 @@ export class UsersController {
     return this.usersService.findAllPsychologists();
   }
 
+  @Get('psychologists/emergency-availables')
+  findAllEmergencyAvailablePsychologists() {
+    return this.usersService.findAllEmergencyAvailablePsychologists();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<User> {
     return this.usersService.findOne( id );

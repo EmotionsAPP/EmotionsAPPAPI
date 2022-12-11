@@ -57,15 +57,22 @@ export class UsersService {
     return await this.create( psychologist );
   }
 
-  findAllPsychologists() {
+  async findAllPsychologists() {
 
-    return this.userModel.find({ 
+    return await this.userModel.find({ 
       psychologist: { $ne: null }, 
       isActive: { $ne: false } 
     })
       .select('-__v')
       .populate('psychologist')
       .populate('city');
+  }
+
+  async findAllEmergencyAvailablePsychologists() {
+
+    const psychologists = await this.findAllPsychologists();
+
+    return psychologists.filter(psy => psy.psychologist.emergencyAvailable);
   }
 
   async findOne( id: string ): Promise<User> {
