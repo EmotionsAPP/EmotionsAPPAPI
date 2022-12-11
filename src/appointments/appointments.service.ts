@@ -72,6 +72,7 @@ export class AppointmentsService {
         { psychologist: userId }, 
         { patient: userId }
       ],
+      isActive: { $eq: true },
       status: AppointmentStatus.Completed
     })
       .limit( limit )
