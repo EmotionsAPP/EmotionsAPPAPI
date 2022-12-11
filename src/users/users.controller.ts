@@ -5,12 +5,13 @@ import {
   Patch,
   Param,
   Delete,
+  Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
 
-import { UpdatePatientUserDto, UpdatePsychologistUserDto } from './dto';
+import { UpdatePatientUserDto, UpdatePsychologistUserDto, UserNotification } from './dto';
 import { User } from './entities';
 
 @ApiTags('Users')
@@ -23,6 +24,11 @@ export class UsersController {
   @Get()
   findAllPsychologists() {
     return this.usersService.findAllPsychologists();
+  }
+
+  @Post('notification')
+  sendNotification(@Body() userNotification: UserNotification) {
+    this.usersService.pushNotification(userNotification);
   }
 
   @Get('psychologists/emergency-availables')

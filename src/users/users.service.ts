@@ -11,11 +11,13 @@ import {
   CreateUserDto,
   UpdatePatientUserDto,
   UpdatePsychologistUserDto,
-  UpdateUserDto
+  UpdateUserDto,
+  UserNotification
 } from './dto';
 import { User } from './entities';
 import { MSPData, UsersQuantityByRole } from './interfaces';
 import { formatIdCardNo, isPsychologist } from './helpers';
+import { ExpoNotificationAdapter } from '../common/adapters';
 
 @Injectable()
 export class UsersService {
@@ -27,8 +29,20 @@ export class UsersService {
     private readonly userModel: Model<User>,
 
     @InjectBrowser() 
-    private readonly browser: Browser
+    private readonly browser: Browser,
+
+    private readonly notificationPusher: ExpoNotificationAdapter
   ) {}
+
+  async pushNotification(userNotification: UserNotification) {
+    const { targetUserToken, message } = userNotification;
+
+    try {
+      await this.notificationPusher.sendPushNotification(targetUserToken, message);
+    } catch(error) {
+      this.handleExceptions(error);
+    }
+  }
 
   async create( createUserDto: CreateUserDto ): Promise<User | undefined> {
     

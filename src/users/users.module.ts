@@ -9,6 +9,7 @@ import { User } from './entities';
 import { UserSchema } from './entities/user.entity';
 import { ValidRoles } from '../auth/interfaces';
 import { PuppeteerModule } from 'nest-puppeteer';
+import { CommonModule } from '../common/common.module';
 
 @Module({
   imports: [
@@ -34,7 +35,9 @@ import { PuppeteerModule } from 'nest-puppeteer';
 
     PassportModule,
 
-    PuppeteerModule.forRoot()
+    PuppeteerModule.forRoot(),
+
+    CommonModule
   ],
   controllers: [ UsersController ],
   providers: [ UsersService ],

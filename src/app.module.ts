@@ -14,6 +14,7 @@ import { NotesModule } from './notes/notes.module';
 import { AdminModule } from './admin/admin.module';
 import { CitiesModule } from './cities/cities.module';
 import { LogsModule } from './logs/logs.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -45,6 +46,8 @@ import { LogsModule } from './logs/logs.module';
     CitiesModule,
 
     LogsModule,
+
+    CommonModule,
   ],
   providers: [
     {
