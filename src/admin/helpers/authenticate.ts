@@ -5,7 +5,10 @@ import { Admin } from '../entities';
 export const authenticateWrapper = (adminModel: Model<Admin>) => {
 
   const login = async (email: string, password: string) => {
-    const admin = await adminModel.findOne({ email });
+    const admin = await adminModel.findOne({
+      email,
+      isActive: { $eq: true }
+    });
 
     if (!admin) return null;
 

@@ -1,4 +1,5 @@
 import { ResourceOptions } from "adminjs";
+import { validateAdmin } from "../validators";
 
 export const adminOptions: ResourceOptions = {
   navigation: {
@@ -7,6 +8,12 @@ export const adminOptions: ResourceOptions = {
   },
 
   actions: {
+    new: {
+      before: [validateAdmin]
+    },
+    edit: {
+      before: [validateAdmin]
+    },
     list: {
       isAccessible: ({ currentAdmin }) => currentAdmin.email === process.env.ADMIN_EMAIL
     }

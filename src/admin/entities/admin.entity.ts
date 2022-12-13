@@ -14,6 +14,9 @@ export class Admin extends Document {
 
   @Prop()
   lastName?: string;
+
+  @Prop({ default: true })
+  isActive: boolean;
 }
 
 export const AdminSchema = SchemaFactory.createForClass( Admin );
