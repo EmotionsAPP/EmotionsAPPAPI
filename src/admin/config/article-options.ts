@@ -1,5 +1,5 @@
 import { ResourceOptions } from "adminjs";
-import { validateArticle } from "../validators";
+import { validateArticleHandler } from "../validators";
 
 export const articleOptions: ResourceOptions = {
   navigation: {
@@ -9,10 +9,11 @@ export const articleOptions: ResourceOptions = {
 
   actions: {
     new: {
-      before: [validateArticle]
+      layout: ["title", "body", "psychologist"],
+      before: [validateArticleHandler]
     },
     edit: {
-      before: [validateArticle]
+      before: [validateArticleHandler]
     },
   },
 
@@ -21,10 +22,27 @@ export const articleOptions: ResourceOptions = {
       isRequired: true,
     },
     body: {
+      type: 'richtext',
       isRequired: true,
     },
     psychologist: {
       isRequired: true,
     },
+    createdAt: {
+      isVisible: {
+        show: true,
+        list: true,
+        edit: false,
+        filter: true,
+      },
+    },
+    updatedAt: {
+      isVisible: {
+        show: true,
+        list: true,
+        edit: false,
+        filter: true,
+      }
+    }
   }
 }
