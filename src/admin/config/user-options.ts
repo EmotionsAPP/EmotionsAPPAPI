@@ -30,9 +30,6 @@ export const userOptions: ResourceOptions = {
       isRequired: true,
       isVisible: false,
     },
-    newPassword: {
-      isRequired: true
-    },
     role: {
       isRequired: true,
       availableValues: [
