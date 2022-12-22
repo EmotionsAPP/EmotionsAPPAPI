@@ -27,6 +27,7 @@ export const articleOptions: ResourceOptions = {
     },
     psychologist: {
       isRequired: true,
+      reference: 'User'
     },
     createdAt: {
       isVisible: {

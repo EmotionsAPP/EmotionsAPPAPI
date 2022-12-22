@@ -29,9 +29,11 @@ export const appointmentOptions: ResourceOptions = {
     },
     psychologist: {
       isRequired: true,
+      reference: 'User',
     },
     patient: {
       isRequired: true,
+      reference: 'User',
     },
     status: {
       isRequired: true,

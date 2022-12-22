@@ -38,15 +38,10 @@ export const userOptions: ResourceOptions = {
       ]
     },
     city: {
-      isVisible: {
-        show: true,
-        list: true,
-        edit: false,
-        filter: true
-      }
+      reference: 'City',
     },
     profileImage: {
-      isVisible: false
+      isVisible: false,
     },
     gender: {
       availableValues: [
