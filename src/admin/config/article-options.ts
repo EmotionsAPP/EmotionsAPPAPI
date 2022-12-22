@@ -1,4 +1,4 @@
-import { ResourceOptions } from "adminjs";
+import AdminJS, { ResourceOptions } from "adminjs";
 import { validateArticleHandler } from "../validators";
 
 export const articleOptions: ResourceOptions = {
@@ -26,8 +26,14 @@ export const articleOptions: ResourceOptions = {
       isRequired: true,
     },
     psychologist: {
+      components: {
+        edit: AdminJS.bundle('../components/PropertyReferenceEdit'),
+      },
+      custom: {
+        role: "Psychologist"
+      },
       isRequired: true,
-      reference: 'User'
+      reference: 'User',
     },
     createdAt: {
       isVisible: {

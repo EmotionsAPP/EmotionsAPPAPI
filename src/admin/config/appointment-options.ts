@@ -1,5 +1,7 @@
-import { ResourceOptions } from "adminjs";
+import AdminJS, { ResourceOptions } from "adminjs";
 import { validateAppointment } from "../validators";
+
+const PROPERTY_REFERENCE_EDIT = AdminJS.bundle('../components/PropertyReferenceEdit');
 
 export const appointmentOptions: ResourceOptions = {
   navigation: {
@@ -28,10 +30,22 @@ export const appointmentOptions: ResourceOptions = {
       isRequired: true,
     },
     psychologist: {
+      components: {
+        edit: PROPERTY_REFERENCE_EDIT,
+      },
+      custom: {
+        role: "Psychologist"
+      },
       isRequired: true,
       reference: 'User',
     },
     patient: {
+      components: {
+        edit: PROPERTY_REFERENCE_EDIT,
+      },
+      custom: {
+        role: "Patient"
+      },
       isRequired: true,
       reference: 'User',
     },
