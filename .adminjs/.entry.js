@@ -9,5 +9,7 @@ import Component3 from '../node_modules/@adminjs/logger/src/components/RecordLin
 AdminJS.UserComponents.Component3 = Component3
 import Component4 from '../node_modules/@adminjs/passwords/components/edit'
 AdminJS.UserComponents.Component4 = Component4
-import Component5 from '../src/admin/components/Dashboard'
+import Component5 from '../src/admin/components/PropertyReferenceEdit'
 AdminJS.UserComponents.Component5 = Component5
+import Component6 from '../src/admin/components/Dashboard'
+AdminJS.UserComponents.Component6 = Component6
