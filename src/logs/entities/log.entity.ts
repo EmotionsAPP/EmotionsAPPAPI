@@ -13,7 +13,7 @@ export class Log extends Document {
   @Prop({ type: 'Object' })
   difference: any;
   
-  @Prop({ default: 'Master Administrator' })
+  @Prop()
   userId: string;
   
   @Prop()
