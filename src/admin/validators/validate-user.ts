@@ -1,32 +1,37 @@
 import { ActionContext } from "adminjs";
 import { plainToClass } from "class-transformer";
-import { validate } from "class-validator";
-import { CreatePatientUserDto, CreatePsychologistUserDto, UpdatePatientUserDto, UpdatePsychologistUserDto } from "../../users/dto";
+import { hashPassword } from "../../auth/security";
+import {
+  CreatePatientUserDto,
+  CreatePsychologistUserDto,
+  UpdatePatientUserDto,
+  UpdatePsychologistUserDto
+} from "../../users/dto";
 
 export const validateUser = async (request, context: ActionContext) => {
   const { payload = {}, method } = request;
 
   if ( method !== 'post' ) return request;
 
-  if (payload.role === "Patient") await validatePatient(payload, context);
-  else await validatePsychologist(payload, context);
+  let userDto;
+
+  if (payload.role === "Patient") userDto = await buildPatientDto(payload, context);
+  else userDto = await buildPsychologistDto(payload, context);
+
+  if (payload.password) 
+    request.payload.password = await hashPassword(payload.password);
 
   return request;
 }
 
-const validatePsychologist = async (payload: any, context: ActionContext) => {
-  
-  let dto;
+const buildPsychologistDto = async (payload: any, context: ActionContext) => {
 
-  if (context.action.name === "new")
-    dto = plainToClass(CreatePsychologistUserDto, payload);
-  else
-    dto = plainToClass(UpdatePsychologistUserDto, payload);
-
-  await validate(dto);
+  return (context.action.name === "new") 
+    ? plainToClass(CreatePsychologistUserDto, payload)
+    : plainToClass(UpdatePsychologistUserDto, payload);
 }
 
-const validatePatient = async (payload: any, context: ActionContext) => {
+const buildPatientDto = async (payload: any, context: ActionContext) => {
 
   let dto;
 
@@ -37,5 +42,5 @@ const validatePatient = async (payload: any, context: ActionContext) => {
   else
     dto = plainToClass(UpdatePatientUserDto, payload);
 
-  await validate(dto);
+  return dto;
 }

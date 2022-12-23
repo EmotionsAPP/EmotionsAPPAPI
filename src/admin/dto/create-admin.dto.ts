@@ -1,18 +1,17 @@
 import { IsBoolean, IsEmail, IsOptional, IsString, Length, Matches, MaxLength } from "class-validator";
 
-export class AdminDto {
+export class CreateAdminDto {
   @IsEmail()
   @MaxLength(100)
   email: string;
 
-  @IsOptional()
   @IsString()
   @Length(8, 50)
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
     message:
       'The Password must have at least one Uppercase, Lowercase, Special Character and Number',
   })
-  password?: string;
+  password: string;
 
   @IsOptional()
   @IsString()
