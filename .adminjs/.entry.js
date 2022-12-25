@@ -13,9 +13,9 @@ import Component5 from '../node_modules/@adminjs/logger/src/components/RecordDif
 AdminJS.UserComponents.Component5 = Component5
 import Component6 from '../node_modules/@adminjs/logger/src/components/RecordLink'
 AdminJS.UserComponents.Component6 = Component6
-import Component7 from '../src/admin/components/PropertyReferenceEdit'
+import Component7 from '../dist/admin/components/property/PropertyReferenceEdit'
 AdminJS.UserComponents.Component7 = Component7
-import Component8 from '../src/admin/components/PropertyReferenceEdit'
+import Component8 from '../dist/admin/components/property/PropertyReferenceEdit'
 AdminJS.UserComponents.Component8 = Component8
-import Component9 from '../src/admin/components/Dashboard'
+import Component9 from '../dist/admin/components/dashboard/Dashboard'
 AdminJS.UserComponents.Component9 = Component9

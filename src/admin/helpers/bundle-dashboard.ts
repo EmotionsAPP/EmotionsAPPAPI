@@ -20,5 +20,5 @@ export const bundleDashboard = (
       emergencyAvailablesCount
     }
   },
-  component: AdminJS.bundle('../components/Dashboard'),
+  component: AdminJS.bundle('../components/dashboard/Dashboard'),
 });

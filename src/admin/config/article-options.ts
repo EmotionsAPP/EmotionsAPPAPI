@@ -27,7 +27,7 @@ export const articleOptions: ResourceOptions = {
     },
     psychologist: {
       components: {
-        edit: AdminJS.bundle('../components/PropertyReferenceEdit'),
+        edit: AdminJS.bundle('../components/property/PropertyReferenceEdit'),
       },
       custom: {
         role: "Psychologist"

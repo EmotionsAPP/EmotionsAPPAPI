@@ -1,7 +1,7 @@
 import AdminJS, { ResourceOptions } from "adminjs";
 import { validateAppointment } from "../validators";
 
-const PROPERTY_REFERENCE_EDIT = AdminJS.bundle('../components/PropertyReferenceEdit');
+const PROPERTY_REFERENCE_EDIT = AdminJS.bundle('../components/property/PropertyReferenceEdit');
 
 export const appointmentOptions: ResourceOptions = {
   navigation: {
