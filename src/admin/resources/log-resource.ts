@@ -23,7 +23,7 @@ export const createLogResource = (logModel: Model<Log>) => {
 
         actions: {
           list: {
-            isAccessible: ({ currentAdmin }) => currentAdmin.email === process.env.ADMIN_EMAIL
+            isAccessible: ({ currentAdmin }) => currentAdmin.isSuperAdmin,
           }
         },
       }
