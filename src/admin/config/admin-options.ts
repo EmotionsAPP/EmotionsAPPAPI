@@ -1,5 +1,10 @@
-import { ResourceOptions } from "adminjs";
+import { ActionContext, ResourceOptions } from "adminjs";
 import { validateAdmin } from "../validators";
+
+const canEditAdmin = ({ currentAdmin, record }: ActionContext) => {
+
+  return !record.params.isSuperAdmin || currentAdmin.email === record.params.email;
+};
 
 export const adminOptions: ResourceOptions = {
   navigation: {
@@ -9,13 +14,20 @@ export const adminOptions: ResourceOptions = {
 
   actions: {
     new: {
-      before: [validateAdmin]
+      before: [validateAdmin],
     },
     edit: {
-      before: [validateAdmin]
+      before: [validateAdmin],
+      isAccessible: canEditAdmin,
     },
     list: {
-      isAccessible: ({ currentAdmin }) => currentAdmin.email === process.env.ADMIN_EMAIL
+      isAccessible: ({ currentAdmin }) => currentAdmin.isSuperAdmin,
+    },
+    delete: {
+      isAccessible: canEditAdmin,
+    },
+    bulkDelete: {
+      isAccessible: false,
     }
   },
 
@@ -26,6 +38,9 @@ export const adminOptions: ResourceOptions = {
     password: {
       isVisible: false,
       isRequired: true,
+    },
+    isSuperAdmin: {
+      isVisible: false,
     },
     createdAt: {
       isVisible: {
