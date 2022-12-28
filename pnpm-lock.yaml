@@ -43,6 +43,7 @@ specifiers:
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
   expo-server-sdk: ^3.7.0
+  express: ^4.18.2
   express-formidable: ^1.2.0
   express-session: ^1.17.3
   jest: 28.1.2
@@ -70,7 +71,7 @@ specifiers:
 dependencies:
   '@adminjs/bundler': 2.0.0_adminjs@6.7.2
   '@adminjs/design-system': 3.1.5_react@18.2.0
-  '@adminjs/express': 5.0.1_yeuacfdjs3buijl6qyvwvpalsy
+  '@adminjs/express': 5.0.1_hmangxbxpsqcsruku23kzhnwnu
   '@adminjs/import-export': 2.0.2_viqwgltehrmfk656opsqrmlwzq
   '@adminjs/logger': 4.0.1_viqwgltehrmfk656opsqrmlwzq
   '@adminjs/mongoose': 3.0.1_y5zcaacnsll64ciyp5zax4wedm
@@ -94,6 +95,7 @@ dependencies:
   class-transformer: 0.5.1
   class-validator: 0.13.2
   expo-server-sdk: 3.7.0
+  express: 4.18.2
   express-formidable: 1.2.0
   express-session: 1.17.3
   moment: 2.29.4
@@ -258,7 +260,7 @@ packages:
       - prop-types
     dev: false
 
-  /@adminjs/express/5.0.1_yeuacfdjs3buijl6qyvwvpalsy:
+  /@adminjs/express/5.0.1_hmangxbxpsqcsruku23kzhnwnu:
     resolution: {integrity: sha512-C/5sCizoUN7OvVVANj7hegHJM8vHHfzbcKkCMdbXj8kqdISP4gyTgGFsBXADQTHscLMtn3/MdXv9XfS6iaBU0A==}
     peerDependencies:
       adminjs: '>=6.0.0'
@@ -268,6 +270,7 @@ packages:
       tslib: ^2.3.1
     dependencies:
       adminjs: 6.7.2
+      express: 4.18.2
       express-formidable: 1.2.0
       express-session: 1.17.3
       path-to-regexp: 6.2.1
