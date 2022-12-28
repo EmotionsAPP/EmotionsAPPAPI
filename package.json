@@ -28,7 +28,6 @@
     "@adminjs/logger": "^4.0.1",
     "@adminjs/mongoose": "^3.0.1",
     "@adminjs/nestjs": "^5.0.1",
-    "@adminjs/passwords": "^3.0.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",

@@ -8,7 +8,6 @@ specifiers:
   '@adminjs/logger': ^4.0.1
   '@adminjs/mongoose': ^3.0.1
   '@adminjs/nestjs': ^5.0.1
-  '@adminjs/passwords': ^3.0.1
   '@golevelup/ts-jest': ^0.3.3
   '@nestjs/cli': ^9.0.0
   '@nestjs/common': ^9.0.0
@@ -76,7 +75,6 @@ dependencies:
   '@adminjs/logger': 4.0.1_viqwgltehrmfk656opsqrmlwzq
   '@adminjs/mongoose': 3.0.1_y5zcaacnsll64ciyp5zax4wedm
   '@adminjs/nestjs': 5.0.1_44vusamq6234vfyhvr24qhx6ei
-  '@adminjs/passwords': 3.0.1_adminjs@6.7.2
   '@nestjs/common': 9.2.1_ufuujcqbszwis444rmt5m3dshy
   '@nestjs/config': 2.2.0_b4pxbpa7chblgbyake5iz5rdmu
   '@nestjs/core': 9.2.1_w3aokaw6dj62wscfwgppttd7ii
@@ -354,14 +352,6 @@ packages:
       adminjs: 6.7.2
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
-    dev: false
-
-  /@adminjs/passwords/3.0.1_adminjs@6.7.2:
-    resolution: {integrity: sha512-gmHUuA+tV1oRFlpGp30fXO5HZmI1kh2L9I0ZS9Lih1a1jMOhyLsv9slHLYtuYEd/QGdmUbK2Y0daDbUD5Qu2DA==}
-    peerDependencies:
-      adminjs: '>=6.0.0'
-    dependencies:
-      adminjs: 6.7.2
     dev: false
 
   /@ampproject/remapping/2.2.0:
