@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { ApiClient, EditPropertyProps, flat, RecordJSON, SelectRecord } from "adminjs";
-import { FormGroup, FormMessage, Label, SelectAsync } from "@adminjs/design-system";
+import { FormGroup, FormMessage, SelectAsync } from "@adminjs/design-system";
+import { CustomPropertyLabel } from "./CustomPropertyLabel";
 
 type CombinedProps = EditPropertyProps;
 type SelectRecordEnhanced = SelectRecord & {
@@ -45,7 +46,7 @@ function PropertyReferenceEdit(props: CombinedProps) {
       record: optionRecord
     }));
   }
-  const error = record?.errors[property.path]
+  const error = record?.errors[property.path];
 
   const selectedId = useMemo(
     () => flat.get(record?.params, property.path) as string | undefined,
@@ -81,14 +82,7 @@ function PropertyReferenceEdit(props: CombinedProps) {
 
   return (
     <FormGroup error={Boolean(error)}>
-      {property.hideLabel || (
-        <Label 
-          htmlFor={property.path}
-          required={property.isRequired}
-        >
-          {property.label}
-        </Label>
-      )}
+      <CustomPropertyLabel property={property} />
       <SelectAsync
         cacheOptions
         value={selectedOption}

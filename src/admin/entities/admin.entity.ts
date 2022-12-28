@@ -20,6 +20,9 @@ export class Admin extends Document {
 
   @Prop({ default: false })
   isSuperAdmin: boolean;
+
+  @Prop()
+  permissions: any[];
 }
 
 export const AdminSchema = SchemaFactory.createForClass( Admin );

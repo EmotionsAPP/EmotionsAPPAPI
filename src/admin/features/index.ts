@@ -1,6 +1,7 @@
 import importExportFeature from "@adminjs/import-export";
 import loggerFeature from "@adminjs/logger";
 import passwordsFeature from "@adminjs/passwords";
+import { hashPassword } from "../../auth/security";
 import { loggerConfig } from "../config";
 
 export const LOGGER_FEATURE = loggerFeature(loggerConfig);
@@ -10,7 +11,7 @@ export const PASSWORD_FEATURE = passwordsFeature({
     encryptedPassword: 'password',
     password: 'newPassword'
   },
-  hash: (password: string) => password,
+  hash: hashPassword,
 });
 
 export { adminFeatures } from "./admin-features";
