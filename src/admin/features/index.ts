@@ -13,6 +13,7 @@ export const PASSWORD_FEATURE = passwordsFeature({
   },
   hash: hashPassword,
 });
+export { validatePermissionsFeature as VALIDATE_PERMISSIONS_FEATURE } from "./validate-permissions.feature";
 
 export { adminFeatures } from "./admin-features";
 export { appointmentFeatures } from "./appointment-features";
