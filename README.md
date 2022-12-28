@@ -64,7 +64,7 @@ $ npm run test:cov
 2. Fill production env variables.
 3. Build docker image.
 ```bash
-$ docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+$ docker-compose -f docker-compose.prod.yml --env-file .env.prod up --build
 ```
 
 ## Contributing

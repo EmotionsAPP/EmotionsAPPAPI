@@ -1,23 +1,25 @@
+FROM node:16-slim AS base
+RUN npm i -g pnpm
 
 # ================> Dependencies Installation <================
-FROM node:16-slim AS deps
+FROM base AS deps
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --network-timeout 1000000
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
 
 # ================> Application Build <================
-FROM node:18-slim AS builder
+FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN yarn build
+RUN pnpm build
+RUN pnpm prune --prod
 
 # ================> Application Runner <================
-FROM node:18-slim AS runner
+FROM base AS runner
 WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
-RUN yarn install --prod --network-timeout 1000000
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
 
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
