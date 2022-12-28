@@ -124,7 +124,7 @@ export class AppointmentsService {
     return appointment;
   }
 
-  async update( id: string, updateAppointmentDto: UpdateAppointmentDto ) {
+  async update( id: string, updateAppointmentDto: UpdateAppointmentDto ): Promise<any> {
     
     await this.validateCollisions( updateAppointmentDto );
 
