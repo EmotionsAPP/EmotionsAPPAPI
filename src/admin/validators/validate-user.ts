@@ -1,6 +1,5 @@
 import { ActionContext } from "adminjs";
 import { plainToClass } from "class-transformer";
-import { hashPassword } from "../../auth/security";
 import {
   CreatePatientUserDto,
   CreatePsychologistUserDto,
@@ -17,9 +16,6 @@ export const validateUser = async (request, context: ActionContext) => {
 
   if (payload.role === "Patient") userDto = await buildPatientDto(payload, context);
   else userDto = await buildPsychologistDto(payload, context);
-
-  if (payload.password) 
-    request.payload.password = await hashPassword(payload.password);
 
   return request;
 }
