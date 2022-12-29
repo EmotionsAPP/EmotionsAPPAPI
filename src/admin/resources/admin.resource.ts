@@ -45,7 +45,12 @@ export const createAdminResource = (resource: unknown): ResourceWithOptions => (
         isRequired: true,
       },
       isSuperAdmin: {
-        isVisible: false,
+        isVisible: {
+          show: true,
+          list: true,
+          edit: false,
+          filter: true,
+        },
       },
       permissions: {
         isArray: true,
@@ -83,6 +88,14 @@ export const createAdminResource = (resource: unknown): ResourceWithOptions => (
           { value: "User|export", label: "User | Export Data" },
         ]
       },
+      lastLogin: {
+        isVisible: {
+          show: true,
+          list: true,
+          edit: false,
+          filter: true,
+        }
+      },
       createdAt: {
         isVisible: {
           show: true,
@@ -98,7 +111,7 @@ export const createAdminResource = (resource: unknown): ResourceWithOptions => (
           edit: false,
           filter: true,
         }
-      }
+      },
     }
   },
   features: [

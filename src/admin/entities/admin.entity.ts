@@ -22,7 +22,10 @@ export class Admin extends Document {
   isSuperAdmin: boolean;
 
   @Prop()
-  permissions: any[];
+  permissions: string[];
+
+  @Prop()
+  lastLogin?: Date;
 }
 
 export const AdminSchema = SchemaFactory.createForClass( Admin );
