@@ -21,5 +21,11 @@ export const validatePermissionsFeature = buildFeature({
     bulkDelete: {
       isAccessible: validatePermissions,
     },
+    import: {
+      isAccessible: validatePermissions,
+    },
+    export: {
+      isAccessible: validatePermissions,
+    },
   }
 });
