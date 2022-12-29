@@ -2,10 +2,11 @@ import AdminJS, { ActionContext, ResourceWithOptions } from "adminjs";
 import { IMPORT_EXPORT_FEATURE, LOGGER_FEATURE, PASSWORD_FEATURE } from "../features";
 import { validateAdmin } from "../validators";
 
-const canEditAdmin = ({ currentAdmin, record }: ActionContext) => {
-
-  return !record.params.isSuperAdmin || currentAdmin.email === record.params.email;
-};
+const canEditAdmin = ({
+  currentAdmin,
+  record
+}: ActionContext
+): boolean => currentAdmin.email !== record.params.email;
 
 export const createAdminResource = (resource: unknown): ResourceWithOptions => ({
   resource,
