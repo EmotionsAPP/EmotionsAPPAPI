@@ -2,7 +2,7 @@ import { ActionContext } from 'adminjs';
 import { CreateArticleDto, UpdateArticleDto } from '../../articles/dto';
 import { validateObject } from './validate-object';
 
-export const validateArticleHandler = async (request, context: ActionContext) => {
+export const validateArticle = async (request, context: ActionContext) => {
 
   const { payload = {}, method } = request;
 

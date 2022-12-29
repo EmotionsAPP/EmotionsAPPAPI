@@ -1,5 +1,5 @@
 import { buildFeature } from "adminjs";
-import { validatePermissions } from "../actions";
+import { validatePermissions } from "../validators";
 
 export const validatePermissionsFeature = buildFeature({
   actions: {

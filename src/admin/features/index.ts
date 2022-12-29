@@ -16,9 +16,3 @@ export const PASSWORD_FEATURE = passwordsFeature({
   validate: (password) => validatePassword(password)
 });
 export { validatePermissionsFeature as VALIDATE_PERMISSIONS_FEATURE } from "./validate-permissions.feature";
-
-export { adminFeatures } from "./admin-features";
-export { appointmentFeatures } from "./appointment-features";
-export { articleFeatures } from "./article-features";
-export { cityFeatures } from './city-features';
-export { userFeatures } from "./user-features";

@@ -8,22 +8,13 @@ import { Admin } from "../entities/admin.entity";
 import { Log } from "../../logs/entities/log.entity";
 
 import {
-  adminOptions,
-  appointmentOptions,
-  articleOptions,
-  cityOptions,
-  userOptions
-} from "../config";
-
-import {
-  adminFeatures,
-  appointmentFeatures,
-  articleFeatures,
-  cityFeatures,
-  userFeatures,
-} from '../features';
-
-import { createLogResource } from "../resources";
+  createAdminResource,
+  createAppointmentResource,
+  createArticleResource,
+  createCityResource,
+  createLogResource,
+  createUserResource
+} from "../resources";
 
 export const getAdminResources = (
   userModel: Model<User>,
@@ -35,11 +26,11 @@ export const getAdminResources = (
 ): any => {
 
   return [
-    { resource: adminModel, options: adminOptions, features: adminFeatures },
-    { resource: userModel, options: userOptions, features: userFeatures, },
-    { resource: articleModel, options: articleOptions, features: articleFeatures, },
-    { resource: appointmentModel, options: appointmentOptions, features: appointmentFeatures, },
-    { resource: cityModel, options: cityOptions, features: cityFeatures, },
+    createAdminResource(adminModel),
+    createUserResource(userModel),
+    createArticleResource(articleModel),
+    createAppointmentResource(appointmentModel),
+    createCityResource(cityModel),
     createLogResource(logModel)
   ]
 }

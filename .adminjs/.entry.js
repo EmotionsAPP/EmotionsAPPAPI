@@ -9,13 +9,13 @@ import Component3 from '../node_modules/.pnpm/@adminjs+logger@4.0.1_viqwgltehrmf
 AdminJS.UserComponents.Component3 = Component3
 import Component4 from '../src/admin/components/password/PasswordEdit'
 AdminJS.UserComponents.Component4 = Component4
-import Component5 from '../node_modules/.pnpm/@adminjs+logger@4.0.1_viqwgltehrmfk656opsqrmlwzq/node_modules/@adminjs/logger/src/components/RecordDifference'
+import Component5 from '../src/admin/components/property/PropertyReferenceEdit'
 AdminJS.UserComponents.Component5 = Component5
-import Component6 from '../node_modules/.pnpm/@adminjs+logger@4.0.1_viqwgltehrmfk656opsqrmlwzq/node_modules/@adminjs/logger/src/components/RecordLink'
+import Component6 from '../node_modules/.pnpm/@adminjs+logger@4.0.1_viqwgltehrmfk656opsqrmlwzq/node_modules/@adminjs/logger/src/components/RecordDifference'
 AdminJS.UserComponents.Component6 = Component6
-import Component7 from '../src/admin/components/property/PermissionSelectBox'
+import Component7 from '../node_modules/.pnpm/@adminjs+logger@4.0.1_viqwgltehrmfk656opsqrmlwzq/node_modules/@adminjs/logger/src/components/RecordLink'
 AdminJS.UserComponents.Component7 = Component7
-import Component8 from '../src/admin/components/property/PropertyReferenceEdit'
+import Component8 from '../src/admin/components/property/PermissionSelectBox'
 AdminJS.UserComponents.Component8 = Component8
 import Component9 from '../src/admin/components/property/PropertyReferenceEdit'
 AdminJS.UserComponents.Component9 = Component9

@@ -1,1 +1,0 @@
-export { validatePermissions } from "./validate-permissions";
