@@ -82,28 +82,25 @@ AdminJS.registerAdapter(AdminJSMongoose);
         usersService: UsersService,
         appointmentsService: AppointmentsService,
         configService: ConfigService
-      ) => {
-        
-        return {
-          adminJsOptions: {
-            rootPath: '/admin',
-            resources: getAdminResources(userModel, articleModel, appointmentModel, cityModel, adminModel, logModel),
-            branding: brandingOptions,
-            locale: localeOptions,
-            dashboard: bundleDashboard(usersService, appointmentsService),
-          },
-          auth: {
-            authenticate: authenticateWrapper(adminModel),
-            cookieName: 'adminjs',
-            cookiePassword: configService.get('ADMIN_COOKIE_PASSWORD'),
-          },
-          sessionOptions: {
-            resave: true,
-            saveUninitialized: true,
-            secret: configService.get('ADMIN_SESSION_SECRET'),
-          },
-        }
-      }
+      ) => ({
+        adminJsOptions: {
+          rootPath: '/admin',
+          resources: getAdminResources(userModel, articleModel, appointmentModel, cityModel, adminModel, logModel),
+          branding: brandingOptions,
+          locale: localeOptions,
+          dashboard: bundleDashboard(usersService, appointmentsService),
+        },
+        auth: {
+          authenticate: authenticateWrapper(adminModel),
+          cookieName: 'adminjs',
+          cookiePassword: configService.get('ADMIN_COOKIE_PASSWORD'),
+        },
+        sessionOptions: {
+          resave: true,
+          saveUninitialized: true,
+          secret: configService.get('ADMIN_SESSION_SECRET'),
+        },
+      })
     }),
   ],
   exports: [ AdminJSModule ]

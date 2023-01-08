@@ -1,8 +1,11 @@
+import { join } from 'path';
+
 import { APP_GUARD } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -25,6 +28,10 @@ import { CommonModule } from './common/common.module';
     ThrottlerModule.forRoot({
       ttl: 60,
       limit: 10
+    }),
+
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public')
     }),
 
     AuthModule,
