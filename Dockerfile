@@ -18,6 +18,7 @@ WORKDIR /usr/src/app
 COPY package.json ./
 RUN yarn install --prod --network-timeout 1000000
 COPY --from=builder /app/dist ./dist
+COPY /public ./public
 
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
