@@ -24,6 +24,7 @@ import { AppointmentsService } from '../appointments/appointments.service';
 import { Admin, AdminSchema } from './entities';
 import { brandingOptions, localeOptions } from './config';
 import { authenticateWrapper, bundleDashboard, getAdminResources } from './helpers';
+import { componentLoader } from './config/component-loader';
 
 AdminJS.registerAdapter(AdminJSMongoose);
 
@@ -89,6 +90,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
           branding: brandingOptions,
           locale: localeOptions,
           dashboard: bundleDashboard(usersService, appointmentsService),
+          componentLoader,
         },
         auth: {
           authenticate: authenticateWrapper(adminModel),

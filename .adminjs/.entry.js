@@ -21,3 +21,5 @@ import Component9 from '../src/admin/components/property/PropertyReferenceEdit'
 AdminJS.UserComponents.Component9 = Component9
 import Component10 from '../src/admin/components/dashboard/Dashboard'
 AdminJS.UserComponents.Component10 = Component10
+import LoggedIn from '../src/admin/components/LoggedIn'
+AdminJS.UserComponents.LoggedIn = LoggedIn

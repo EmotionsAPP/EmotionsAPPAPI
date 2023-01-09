@@ -12,7 +12,7 @@ export const authenticateWrapper = (adminModel: Model<Admin>) => {
 
     if (!admin) return null;
 
-    if (!verifyPassword( password, admin.password )) return null;
+    if (!(await verifyPassword( password, admin.password ))) return null;
 
     await adminModel.updateOne({ _id: admin._id }, { lastLogin: new Date() });
 

@@ -31,6 +31,7 @@ specifiers:
   '@types/node': ^16.0.0
   '@types/passport': ^1.0.10
   '@types/passport-jwt': ^3.0.6
+  '@types/react': ^18.0.26
   '@types/supertest': ^2.0.11
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
@@ -70,7 +71,7 @@ specifiers:
 
 dependencies:
   '@adminjs/bundler': 2.0.0_adminjs@6.7.2
-  '@adminjs/design-system': 3.1.5_react@18.2.0
+  '@adminjs/design-system': 3.1.5_kzbn2opkn2327fwg5yzwzya5o4
   '@adminjs/express': 5.0.1_hmangxbxpsqcsruku23kzhnwnu
   '@adminjs/import-export': 2.0.2_viqwgltehrmfk656opsqrmlwzq
   '@adminjs/logger': 4.0.1_viqwgltehrmfk656opsqrmlwzq
@@ -122,6 +123,7 @@ devDependencies:
   '@types/node': 16.18.10
   '@types/passport': 1.0.11
   '@types/passport-jwt': 3.0.8
+  '@types/react': 18.0.26
   '@types/supertest': 2.0.12
   '@typescript-eslint/eslint-plugin': 5.47.0_ncmi6noazr3nzas7jxykisekym
   '@typescript-eslint/parser': 5.47.0_lzzuuodtsqwxnvqeq4g4likcqa
@@ -205,7 +207,7 @@ packages:
       - prop-types
     dev: false
 
-  /@adminjs/design-system/3.1.5_react@18.2.0:
+  /@adminjs/design-system/3.1.5_kzbn2opkn2327fwg5yzwzya5o4:
     resolution: {integrity: sha512-fd3WMuPUZngW83/VJHPQpTUJBtjwewJxtjqZ2YWuHfU4WqsE3H3Yfv65kIxePgGKHgIFAMPcwaQgWBPExB8L9g==}
     peerDependencies:
       react: ^18.1.0
@@ -250,7 +252,7 @@ packages:
       react-currency-input-field: 3.6.9_react@18.2.0
       react-datepicker: 4.8.0_react@18.2.0
       react-phone-input-2: 2.15.1_react@18.2.0
-      react-select: 5.7.0_react@18.2.0
+      react-select: 5.7.0_kzbn2opkn2327fwg5yzwzya5o4
       react-text-mask: 5.5.0_react@18.2.0
       styled-system: 5.1.5
       text-mask-addons: 3.8.0
@@ -282,7 +284,7 @@ packages:
       '@adminjs/design-system': ^3.1.0
       adminjs: ^6.0.0
     dependencies:
-      '@adminjs/design-system': 3.1.5_react@18.2.0
+      '@adminjs/design-system': 3.1.5_kzbn2opkn2327fwg5yzwzya5o4
       '@adminjs/mongoose': 2.0.4_tg2mmmixovzayxqoyyobncvhi4
       '@types/mongoose': 5.11.97
       adminjs: 6.7.2
@@ -309,7 +311,7 @@ packages:
       '@adminjs/design-system': ^3.0.4
       adminjs: ^6.4.1
     dependencies:
-      '@adminjs/design-system': 3.1.5_react@18.2.0
+      '@adminjs/design-system': 3.1.5_kzbn2opkn2327fwg5yzwzya5o4
       adminjs: 6.7.2
       lodash: 4.17.21
     dev: false
@@ -2710,7 +2712,7 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@emotion/react/11.10.5_react@18.2.0:
+  /@emotion/react/11.10.5_kzbn2opkn2327fwg5yzwzya5o4:
     resolution: {integrity: sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==}
     peerDependencies:
       '@babel/core': ^7.0.0
@@ -2729,6 +2731,7 @@ packages:
       '@emotion/use-insertion-effect-with-fallbacks': 1.0.0_react@18.2.0
       '@emotion/utils': 1.2.0
       '@emotion/weak-memoize': 0.3.0
+      '@types/react': 18.0.26
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
     dev: false
@@ -4342,7 +4345,6 @@ packages:
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-    dev: false
 
   /@types/qs/6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
@@ -4362,7 +4364,6 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.1
-    dev: false
 
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
@@ -4372,7 +4373,6 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: false
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
@@ -5555,7 +5555,6 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
-    dev: false
 
   /csvtojson/2.0.10:
     resolution: {integrity: sha512-lUWFxGKyhraKCW8Qghz6Z0f2l/PqB1W3AO0HKJzGIQ5JRSlR651ekJDiGJbBT4sRNNv5ddnSGVEnsxP9XRCVpQ==}
@@ -8699,7 +8698,7 @@ packages:
       - '@types/react'
     dev: false
 
-  /react-select/5.7.0_react@18.2.0:
+  /react-select/5.7.0_kzbn2opkn2327fwg5yzwzya5o4:
     resolution: {integrity: sha512-lJGiMxCa3cqnUr2Jjtg9YHsaytiZqeNOKeibv6WF5zbK/fPegZ1hg3y/9P1RZVLhqBTs0PfqQLKuAACednYGhQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -8707,14 +8706,14 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       '@emotion/cache': 11.10.5
-      '@emotion/react': 11.10.5_react@18.2.0
+      '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
       '@floating-ui/dom': 1.0.12
       '@types/react-transition-group': 4.4.5
       memoize-one: 6.0.0
       prop-types: 15.8.1
       react: 18.2.0
       react-transition-group: 4.4.5_react@18.2.0
-      use-isomorphic-layout-effect: 1.1.2_react@18.2.0
+      use-isomorphic-layout-effect: 1.1.2_kzbn2opkn2327fwg5yzwzya5o4
     transitivePeerDependencies:
       - '@babel/core'
       - '@types/react'
@@ -9813,18 +9812,6 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.0.26
-      react: 18.2.0
-    dev: false
-
-  /use-isomorphic-layout-effect/1.1.2_react@18.2.0:
-    resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
-    peerDependencies:
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
       react: 18.2.0
     dev: false
 
