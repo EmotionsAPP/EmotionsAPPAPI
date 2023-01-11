@@ -1,9 +1,9 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { CallingsService } from './callings.service';
 
 @WebSocketGateway({ cors: true })
-export class CallingsGateway {
+export class CallingsGateway implements OnGatewayDisconnect {
 
   @WebSocketServer() wss: Server;
 
@@ -29,9 +29,24 @@ export class CallingsGateway {
     this.wss.to( payload.target ).emit('answer', payload);
   }
 
+  @SubscribeMessage("offer-other")
+  offerOther( client: Socket, payload: any ) {
+    this.wss.to(payload.target).emit('offer-other', payload);
+  }
+
+  @SubscribeMessage("answer-other")
+  answerOther( client: Socket, payload: any ) {
+    this.wss.to(payload.target).emit('answer-other', payload);
+  }
+
   @SubscribeMessage("ice-candidate")
   iceCandidate( client: Socket, incoming: any ) {
     this.wss.to( incoming.target ).emit('ice-candidate', incoming.candidate);
+  }
+
+  @SubscribeMessage("ice-candidate-other")
+  iceCandidateOther( client: Socket, incoming: any ) {
+    this.wss.to(incoming.target).emit('ice-candidate-other', incoming.candidate);
   }
 
   @SubscribeMessage("request audio call")
@@ -47,5 +62,24 @@ export class CallingsGateway {
   @SubscribeMessage("reject audio call")
   rejectAudioCall( client: Socket, payload: any ) {
     this.wss.to( payload.target ).emit('reject audio call', payload);
+  }
+
+  @SubscribeMessage("request video call")
+  requestVideoCall( client: Socket, payload: any ) {
+    this.wss.to(payload.target).emit('request video call', payload);
+  }
+
+  @SubscribeMessage("accept video call")
+  acceptVideoCall( client: Socket, payload: any ) {
+    this.wss.to(payload.target).emit('accept video call', payload);
+  }
+
+  @SubscribeMessage("reject video call")
+  rejectVideoCall( client: Socket, payload: any ) {
+    this.wss.to(payload.target).emit('reject video call', payload);
+  }
+
+  handleDisconnect(client: Socket) {
+    this.callingsService.disconnect(client.id, this.wss);
   }
 }
