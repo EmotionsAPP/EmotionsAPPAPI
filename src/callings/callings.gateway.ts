@@ -1,16 +1,23 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayDisconnect } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, OnGatewayConnection, OnGatewayDisconnect, ConnectedSocket } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { CallingsService } from './callings.service';
 
 @WebSocketGateway({ cors: true })
-export class CallingsGateway implements OnGatewayDisconnect {
+export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @WebSocketServer() wss: Server;
 
   constructor(private readonly callingsService: CallingsService) {}
 
+  handleConnection(client: Socket, ...args: any[]) {
+    console.log(`Client connected: ${client.id}`);
+  }
+
   @SubscribeMessage("join room")
-  joinRoom( client: Socket, @MessageBody('roomID') roomID: string ) {
+  joinRoom(
+    @ConnectedSocket() client: Socket,
+    @MessageBody('roomID') roomID: string
+  ) {
     const otherUser = this.callingsService.joinRoom( client.id, roomID );
 
     if (otherUser) {
@@ -20,62 +27,98 @@ export class CallingsGateway implements OnGatewayDisconnect {
   }
 
   @SubscribeMessage("offer")
-  offer( client: Socket, payload: any ) {
+  offer(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to( payload.target ).emit('offer', payload);
   }
 
   @SubscribeMessage("answer")
-  answer( client: Socket, payload: any ) {
+  answer(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to( payload.target ).emit('answer', payload);
   }
 
   @SubscribeMessage("offer-other")
-  offerOther( client: Socket, payload: any ) {
+  offerOther(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to(payload.target).emit('offer-other', payload);
   }
 
   @SubscribeMessage("answer-other")
-  answerOther( client: Socket, payload: any ) {
+  answerOther(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to(payload.target).emit('answer-other', payload);
   }
 
   @SubscribeMessage("ice-candidate")
-  iceCandidate( client: Socket, incoming: any ) {
+  iceCandidate(
+    @ConnectedSocket() client: Socket,
+    incoming: any
+  ) {
     this.wss.to( incoming.target ).emit('ice-candidate', incoming.candidate);
   }
 
   @SubscribeMessage("ice-candidate-other")
-  iceCandidateOther( client: Socket, incoming: any ) {
+  iceCandidateOther(
+    @ConnectedSocket() client: Socket,
+    incoming: any
+  ) {
     this.wss.to(incoming.target).emit('ice-candidate-other', incoming.candidate);
   }
 
   @SubscribeMessage("request audio call")
-  requestAudioCall( client: Socket, payload: any ) {
+  requestAudioCall(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to( payload.target ).emit('request audio call', payload);
   }
 
   @SubscribeMessage("accept audio call")
-  acceptAudioCall( client: Socket, payload: any ) {
+  acceptAudioCall(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to( payload.target ).emit('accept audio call', payload);
   }
 
   @SubscribeMessage("reject audio call")
-  rejectAudioCall( client: Socket, payload: any ) {
+  rejectAudioCall(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to( payload.target ).emit('reject audio call', payload);
   }
 
   @SubscribeMessage("request video call")
-  requestVideoCall( client: Socket, payload: any ) {
+  requestVideoCall(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to(payload.target).emit('request video call', payload);
   }
 
   @SubscribeMessage("accept video call")
-  acceptVideoCall( client: Socket, payload: any ) {
+  acceptVideoCall(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to(payload.target).emit('accept video call', payload);
   }
 
   @SubscribeMessage("reject video call")
-  rejectVideoCall( client: Socket, payload: any ) {
+  rejectVideoCall(
+    @ConnectedSocket() client: Socket,
+    payload: any
+  ) {
     this.wss.to(payload.target).emit('reject video call', payload);
   }
 
