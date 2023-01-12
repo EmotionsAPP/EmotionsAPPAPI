@@ -29,7 +29,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("offer")
   offer(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to( payload.target ).emit('offer', payload);
   }
@@ -37,7 +37,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("answer")
   answer(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to( payload.target ).emit('answer', payload);
   }
@@ -45,7 +45,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("offer-other")
   offerOther(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to(payload.target).emit('offer-other', payload);
   }
@@ -53,7 +53,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("answer-other")
   answerOther(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to(payload.target).emit('answer-other', payload);
   }
@@ -61,7 +61,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("ice-candidate")
   iceCandidate(
     @ConnectedSocket() client: Socket,
-    incoming: any
+    @MessageBody() incoming: any
   ) {
     this.wss.to( incoming.target ).emit('ice-candidate', incoming.candidate);
   }
@@ -69,7 +69,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("ice-candidate-other")
   iceCandidateOther(
     @ConnectedSocket() client: Socket,
-    incoming: any
+    @MessageBody() incoming: any
   ) {
     this.wss.to(incoming.target).emit('ice-candidate-other', incoming.candidate);
   }
@@ -77,7 +77,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("request audio call")
   requestAudioCall(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to( payload.target ).emit('request audio call', payload);
   }
@@ -85,7 +85,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("accept audio call")
   acceptAudioCall(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to( payload.target ).emit('accept audio call', payload);
   }
@@ -93,7 +93,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("reject audio call")
   rejectAudioCall(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to( payload.target ).emit('reject audio call', payload);
   }
@@ -101,7 +101,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("request video call")
   requestVideoCall(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to(payload.target).emit('request video call', payload);
   }
@@ -109,7 +109,7 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("accept video call")
   acceptVideoCall(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to(payload.target).emit('accept video call', payload);
   }
@@ -117,12 +117,13 @@ export class CallingsGateway implements OnGatewayConnection, OnGatewayDisconnect
   @SubscribeMessage("reject video call")
   rejectVideoCall(
     @ConnectedSocket() client: Socket,
-    payload: any
+    @MessageBody() payload: any
   ) {
     this.wss.to(payload.target).emit('reject video call', payload);
   }
 
   handleDisconnect(client: Socket) {
+    console.log(`Client disconnected: ${client.id}`);
     this.callingsService.disconnect(client.id, this.wss);
   }
 }
