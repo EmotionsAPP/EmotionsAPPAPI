@@ -63,6 +63,13 @@ export class AppointmentsService {
       .populate("patient");
   }
 
+  getUsersAppointments( userId: string ) {
+    return this.appointmentModel.find({
+      $or: [{ psychologist: userId }, { patient: userId }],
+      isActive: true
+    });
+  }
+
   async getHistory( getHistoryAppointments: AppointmentsPaginationDto ) {
 
     const { userId, limit = 0, offset = 0 } = getHistoryAppointments;

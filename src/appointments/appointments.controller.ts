@@ -23,6 +23,11 @@ export class AppointmentsController {
     return this.appointmentsService.find( findAppointmentsDto );
   }
 
+  @Get("/user/:id")
+  getUsersAppointments(@Param('id') userId: string) {
+    return this.appointmentsService.getUsersAppointments( userId );
+  }
+
   @Get("/history")
   getHistory(@Query() getHistoryAppointments: AppointmentsPaginationDto) {
     return this.appointmentsService.getHistory( getHistoryAppointments );
