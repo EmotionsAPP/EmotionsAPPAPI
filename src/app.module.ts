@@ -31,7 +31,8 @@ import { CommonModule } from './common/common.module';
     }),
 
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public')
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/',
     }),
 
     AuthModule,
