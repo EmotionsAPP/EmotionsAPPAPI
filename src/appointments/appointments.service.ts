@@ -59,8 +59,8 @@ export class AppointmentsService {
 
     return await this.appointmentModel.find(query)
       .sort({ start: 1 })
-      .populate("psychologist")
-      .populate("patient");
+      .populate("psychologist", "-profileImage")
+      .populate("patient", "-profileImage");
   }
 
   getUsersAppointments( userId: string ) {
@@ -68,8 +68,8 @@ export class AppointmentsService {
       $or: [{ psychologist: userId }, { patient: userId }],
       isActive: true
     })
-	  .populate("psychologist")
-      .populate("patient");
+      .populate("psychologist", "-profileImage -password -psychologist.goals -psychologist.workPlaces")
+      .populate("patient", "-profileImage -password");
   }
 
   async getHistory( getHistoryAppointments: AppointmentsPaginationDto ) {
@@ -87,8 +87,8 @@ export class AppointmentsService {
       .limit( limit )
       .skip( offset )
       .sort({ start: -1 })
-      .populate("psychologist")
-      .populate("patient");
+      .populate("psychologist", "-profileImage")
+      .populate("patient", "-profileImage");
 
     return this.createAppointmentsHistory( appointments );
   }
@@ -127,8 +127,8 @@ export class AppointmentsService {
     if ( !appointment )
       throw new NotFoundException(`Appointment with id ${id} does not found`);
 
-    await appointment.populate('psychologist');
-    await appointment.populate('patient');
+    await appointment.populate('psychologist', "-profileImage");
+    await appointment.populate('patient', "-profileImage");
 
     return appointment;
   }
