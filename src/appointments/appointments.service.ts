@@ -74,7 +74,7 @@ export class AppointmentsService {
 
   async getHistory( getHistoryAppointments: AppointmentsPaginationDto ) {
 
-    const { userId, limit = 0, offset = 0 } = getHistoryAppointments;
+    const { userId, limit = 0, offset = 0, status } = getHistoryAppointments;
 
     const appointments = await this.appointmentModel.find({
       $or: [
@@ -82,7 +82,7 @@ export class AppointmentsService {
         { patient: userId }
       ],
       isActive: { $eq: true },
-      status: AppointmentStatus.Completed
+      status: status ? status : { $ne: null }
     })
       .limit( limit )
       .skip( offset )
